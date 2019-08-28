@@ -1,20 +1,26 @@
-import React, { PureComponent } from 'react';
-import { AppBar, Button, Toolbar, Typography, IconButton } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import { withStyles } from '@material-ui/styles';
-import WbIncandescentRoundedIcon from '@material-ui/icons/WbIncandescentRounded';
-import WbIncandescentOutlinedIcon from '@material-ui/icons/WbIncandescentOutlined';
+import React, { PureComponent } from "react";
+import {
+  AppBar,
+  Button,
+  Toolbar,
+  Typography,
+  IconButton
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import { withStyles } from "@material-ui/styles";
+import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
+import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutlined";
 
 const useStyles = theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1,
-  },
+    flexGrow: 1
+  }
 });
 
 class Header extends PureComponent {
@@ -39,6 +45,9 @@ class Header extends PureComponent {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
+            <IconButton className={classes.menuButton}>
+              <WbIncandescentOutlinedIcon />
+            </IconButton>
             <Typography variant="h6" className={classes.menuButton}>
               DocumentationApi
             </Typography>
