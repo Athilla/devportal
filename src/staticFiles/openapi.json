@@ -1,0 +1,968 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "v1",
+        "title": "Cdiscount wallet_api",
+        "description": "# Heading\r\n\r\nText attributes _italic_, *italic*, __bold__, **bold**, `monospace`.\r\n\r\nHorizontal rule:\r\n\r\n---\r\n\r\nBullet list:\r\n\r\n  * apples\r\n  * oranges\r\n  * pears\r\n\r\nNumbered list:\r\n\r\n  1. apples\r\n  2. oranges\r\n  3. pears\r\n\r\nA [link](http://example.com).\r\n\r\nAn image:\r\n![Swagger logo](https://raw.githubusercontent.com/swagger-api/swagger-ui/master/dist/favicon-32x32.png)\r\n\r\nCode block:\r\n\r\n<code>\r\n{\r\n  \"message\": \"Hello, world!\"\r\n}\r\n</code>\r\nTables:\r\n\r\n| Column1 | Collumn2 |\r\n| ------- | -------- |\r\n| cell1   | cell2    |"
+    },
+    "paths": {
+        "/api/Contributes": {
+            "post": {
+                "tags": [
+                    "Contributes"
+                ],
+                "summary": "Method to handle contribute actions",
+                "description": "# foo\r\n-&gt; level1\r\n## foo\r\n-&gt; level2\r\n### foo\r\n-&gt; level3\r\n#### foo\r\n-&gt; level4\r\n##### foo\r\n-&gt; level5\r\n###### foo\r\n-&gt; level6",
+                "operationId": "ApiContributesPost",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "contributeRequest",
+                        "in": "body",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ContributeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/PaymentMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/Pots": {
+            "post": {
+                "tags": [
+                    "Pots"
+                ],
+                "summary": "Create a pot",
+                "description": "### un petit tableau pour faire beau :) ###\r\n\r\n| Titre 1       |     Titre 2     |        Titre 3 |\r\n| :------------ | :-------------: | -------------: |\r\n| Colonne       |     Colonne     |        Colonne |\r\n| Alignée à     |   Alignée au    |      Alignée à |\r\n| Gauche        |     Centre      |         Droite |",
+                "operationId": "ApiPotsPost",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "createPot",
+                        "in": "body",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/CreatePot"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully created",
+                        "schema": {
+                            "$ref": "#/definitions/Pot"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/Pots/{accountKey}": {
+            "get": {
+                "tags": [
+                    "Pots"
+                ],
+                "summary": "Get the details of the pot",
+                "description": "### REMARKS ###\r\nUse this call to retrieve a list of entities and their descriptions. This is used when setting up a new ViewSet.\r\n- Returns an array of **EntityDescription** objects.\r\n- The array is `ordered alphabetically` by the Name property.\r\n \r\n    \r\n    // contrived code sample to demonstrate code block in swagger.\r\n    for (i=0; i < 5; i++)\r\n    {\r\n        doesthiswork = yesitdoes;\r\n    }\r\n    \r\n",
+                "operationId": "ApiPotsByAccountKeyGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "accountKey",
+                        "in": "path",
+                        "description": "the pot id (Guid)",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Pot"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Pots"
+                ],
+                "summary": "Update a Pot Configuration (name, description, etc.)",
+                "operationId": "ApiPotsByAccountKeyPatch",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [],
+                "parameters": [
+                    {
+                        "name": "accountKey",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "patchPotConfiguration",
+                        "in": "body",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UpdatePotConfiguration"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/Pots/{accountKey}/participations": {
+            "get": {
+                "tags": [
+                    "Pots"
+                ],
+                "summary": "Get the list of participations",
+                "operationId": "ApiPotsByAccountKeyParticipationsGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "accountKey",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "uniqueItems": false,
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Participation"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/Pots/{accountKey}/state": {
+            "patch": {
+                "tags": [
+                    "Pots"
+                ],
+                "summary": "Update the pot (status)",
+                "operationId": "ApiPotsByAccountKeyStatePatch",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [],
+                "parameters": [
+                    {
+                        "name": "accountKey",
+                        "in": "path",
+                        "description": "The account key",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "updatePotStatus",
+                        "in": "body",
+                        "description": "The update pot status",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/UpdatePotStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/Users/{userKey}/pots": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the list of pots of the user",
+                "operationId": "ApiUsersByUserKeyPotsGet",
+                "consumes": [],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "userKey",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "uniqueItems": false,
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Pot"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ContributeRequest": {
+            "type": "object",
+            "properties": {
+                "AccountID": {
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "Amount": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "HideName": {
+                    "type": "boolean"
+                },
+                "HideAmount": {
+                    "type": "boolean"
+                },
+                "MerchantId": {
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "MerchantCustomerID": {
+                    "type": "string"
+                },
+                "LastName": {
+                    "type": "string"
+                },
+                "FirstName": {
+                    "type": "string"
+                },
+                "Mail": {
+                    "type": "string"
+                }
+            }
+        },
+        "PaymentMessage": {
+            "type": "object",
+            "properties": {
+                "actionUrl": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "merchantId": {
+                    "type": "string"
+                },
+                "merchantSideId": {
+                    "type": "string"
+                },
+                "paymentOptionRef": {
+                    "type": "string"
+                },
+                "orderRef": {
+                    "type": "string"
+                },
+                "orderTag": {
+                    "type": "string"
+                },
+                "orderTag_prefix": {
+                    "type": "string"
+                },
+                "orderTag_suffix": {
+                    "type": "string"
+                },
+                "freeText": {
+                    "type": "string"
+                },
+                "decimalPosition": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "invoiceId": {
+                    "type": "string"
+                },
+                "customerRef": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                },
+                "orderRowsAmount": {
+                    "type": "string"
+                },
+                "orderFeesAmount": {
+                    "type": "string"
+                },
+                "orderDiscountAmount": {
+                    "type": "string"
+                },
+                "orderShippingCost": {
+                    "type": "string"
+                },
+                "customerCivility": {
+                    "type": "string"
+                },
+                "customerLastName": {
+                    "type": "string"
+                },
+                "customerFirstName": {
+                    "type": "string"
+                },
+                "customerEmail": {
+                    "type": "string"
+                },
+                "customerBillingAddress": {
+                    "type": "string"
+                },
+                "customerBillingCity": {
+                    "type": "string"
+                },
+                "customerBillingZipCode": {
+                    "type": "string"
+                },
+                "customerBillingBPlieudit": {
+                    "type": "string"
+                },
+                "customerAdress": {
+                    "type": "string"
+                },
+                "customerCpltAdress": {
+                    "type": "string"
+                },
+                "customerBPLieuDit": {
+                    "type": "string"
+                },
+                "customerZipCode": {
+                    "type": "string"
+                },
+                "customerTown": {
+                    "type": "string"
+                },
+                "customerCountry": {
+                    "type": "string"
+                },
+                "customerPhoneNumber": {
+                    "type": "string"
+                },
+                "customerMobileNumber": {
+                    "type": "string"
+                },
+                "BirthDate": {
+                    "type": "string"
+                },
+                "customerFianetNote": {
+                    "type": "string"
+                },
+                "deliverySocietyName": {
+                    "type": "string"
+                },
+                "merchantHomeUrl": {
+                    "type": "string"
+                },
+                "merchantBackUrl": {
+                    "type": "string"
+                },
+                "merchantReturnUrl": {
+                    "type": "string"
+                },
+                "merchantNotifyUrl": {
+                    "type": "string"
+                },
+                "merchantCheckDiscountUrl": {
+                    "type": "string"
+                },
+                "shipToName": {
+                    "type": "string"
+                },
+                "shipToStreet1": {
+                    "type": "string"
+                },
+                "shipToStreet2": {
+                    "type": "string"
+                },
+                "shipToZip": {
+                    "type": "string"
+                },
+                "shipToCity": {
+                    "type": "string"
+                },
+                "welcomeOffer": {
+                    "type": "string"
+                },
+                "bondAmount": {
+                    "type": "string"
+                },
+                "orderAmountWithWelcomeOffer": {
+                    "type": "string"
+                },
+                "inStoreParcelName": {
+                    "type": "string"
+                },
+                "inStoreParcelAddress": {
+                    "type": "string"
+                },
+                "inStoreParcelPostalCode": {
+                    "type": "string"
+                },
+                "inStoreParcelCity": {
+                    "type": "string"
+                },
+                "inStoreParcelPhone": {
+                    "type": "string"
+                },
+                "inStoreParcelFax": {
+                    "type": "string"
+                },
+                "inStoreParcelHour0": {
+                    "type": "string"
+                },
+                "inStoreParcelHour1": {
+                    "type": "string"
+                },
+                "inStoreParcelHour2": {
+                    "type": "string"
+                },
+                "inStoreParcelHour3": {
+                    "type": "string"
+                },
+                "inStoreParcelHour4": {
+                    "type": "string"
+                },
+                "inStoreParcelHour5": {
+                    "type": "string"
+                },
+                "inStoreParcelHour6": {
+                    "type": "string"
+                },
+                "reportDelayInDays": {
+                    "type": "string"
+                },
+                "scheduleCount": {
+                    "type": "string"
+                },
+                "productType": {
+                    "type": "string"
+                },
+                "productState": {
+                    "type": "string"
+                },
+                "productLaunchYear": {
+                    "type": "string"
+                },
+                "productId": {
+                    "type": "string"
+                },
+                "productEstimatedShippingDate": {
+                    "type": "string"
+                },
+                "insuranceNominalRate": {
+                    "type": "string"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "insurancePrice": {
+                    "type": "string"
+                },
+                "marginValueRecovery": {
+                    "type": "string"
+                },
+                "firstScheduleAmountWithoutVat": {
+                    "type": "string"
+                },
+                "recurrentScheduleAmountWithoutVat": {
+                    "type": "string"
+                },
+                "amountWithoutVat": {
+                    "type": "string"
+                },
+                "isRelayPoint": {
+                    "type": "string"
+                },
+                "productCategoryId": {
+                    "type": "string"
+                },
+                "productCategoryName": {
+                    "type": "string"
+                },
+                "productUrl": {
+                    "type": "string"
+                },
+                "featureRef": {
+                    "type": "string"
+                },
+                "limonetikPaymentPageID": {
+                    "type": "string"
+                },
+                "annualInterestRate": {
+                    "type": "string"
+                },
+                "loanCost": {
+                    "type": "string"
+                },
+                "firstInstallment": {
+                    "type": "string"
+                },
+                "loanRef": {
+                    "type": "string"
+                },
+                "installmentNumber": {
+                    "type": "string"
+                },
+                "installmentAmount": {
+                    "type": "string"
+                },
+                "PaymentItemName1": {
+                    "type": "string"
+                },
+                "PaymentItemQuantity1": {
+                    "type": "string"
+                },
+                "PaymentItemPrice1": {
+                    "type": "string"
+                },
+                "PaymentItemName2": {
+                    "type": "string"
+                },
+                "PaymentItemQuantity2": {
+                    "type": "string"
+                },
+                "PaymentItemPrice2": {
+                    "type": "string"
+                },
+                "HmacItem": {
+                    "type": "string"
+                },
+                "hmac": {
+                    "type": "string"
+                }
+            }
+        },
+        "CreatePot": {
+            "type": "object",
+            "properties": {
+                "PotName": {
+                    "type": "string"
+                },
+                "CelebrationType": {
+                    "enum": [
+                        "Birthday",
+                        "Housewarming",
+                        "Diploma",
+                        "StagParty",
+                        "Wedding",
+                        "Thanks",
+                        "Baptism",
+                        "Fairwell",
+                        "Party",
+                        "Holidays",
+                        "OtherGift"
+                    ],
+                    "type": "string"
+                },
+                "PotDescription": {
+                    "type": "string"
+                },
+                "DateEnd": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "OwnerName": {
+                    "type": "string"
+                },
+                "HideName": {
+                    "type": "boolean"
+                },
+                "HideAmount": {
+                    "type": "boolean"
+                },
+                "HideTotalAmount": {
+                    "type": "boolean"
+                },
+                "User": {
+                    "$ref": "#/definitions/CreateUser"
+                }
+            }
+        },
+        "CreateUser": {
+            "type": "object",
+            "properties": {
+                "FirstName": {
+                    "type": "string"
+                },
+                "LastName": {
+                    "type": "string"
+                },
+                "BirthDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "Country": {
+                    "type": "string"
+                },
+                "MerchantCustomerID": {
+                    "type": "string"
+                },
+                "MerchantID": {
+                    "enum": [
+                        "Cdiscount"
+                    ],
+                    "type": "string"
+                },
+                "merchantCustomer": {
+                    "$ref": "#/definitions/MerchantCustomer"
+                },
+                "Mail": {
+                    "type": "string"
+                }
+            }
+        },
+        "MerchantCustomer": {
+            "type": "object",
+            "properties": {
+                "MerchantCustomerID": {
+                    "type": "string"
+                },
+                "MerchantID": {
+                    "enum": [
+                        "Cdiscount"
+                    ],
+                    "type": "string"
+                }
+            }
+        },
+        "Pot": {
+            "type": "object",
+            "properties": {
+                "AccountKey": {
+                    "format": "uuid",
+                    "type": "string"
+                },
+                "PotName": {
+                    "type": "string"
+                },
+                "AccountID": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "CelebrationTypeCode": {
+                    "enum": [
+                        "Birthday",
+                        "Housewarming",
+                        "Diploma",
+                        "StagParty",
+                        "Wedding",
+                        "Thanks",
+                        "Baptism",
+                        "Fairwell",
+                        "Party",
+                        "Holidays",
+                        "OtherGift"
+                    ],
+                    "type": "string"
+                },
+                "PotDescription": {
+                    "type": "string"
+                },
+                "DateEnd": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "OwnerName": {
+                    "type": "string"
+                },
+                "HideName": {
+                    "type": "boolean"
+                },
+                "HideAmount": {
+                    "type": "boolean"
+                },
+                "HideTotalAmount": {
+                    "type": "boolean"
+                },
+                "CollectedAmount": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "Amount": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "DateOpen": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "DateClose": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "AccountTypeCode": {
+                    "enum": [
+                        "EMAccount",
+                        "Pot",
+                        "Cantonment",
+                        "BankAccount"
+                    ],
+                    "type": "string"
+                },
+                "AccountStatusCode": {
+                    "enum": [
+                        "Enable",
+                        "Disable",
+                        "InProgress",
+                        "Completed",
+                        "Canceled"
+                    ],
+                    "type": "string"
+                },
+                "UserID": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "Merchant": {
+                    "enum": [
+                        "Cdiscount"
+                    ],
+                    "type": "string"
+                },
+                "MerchantCustomerId": {
+                    "type": "string"
+                },
+                "PotToken": {
+                    "format": "uuid",
+                    "type": "string"
+                },
+                "NbParticipations": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "UserKey": {
+                    "format": "uuid",
+                    "type": "string"
+                }
+            }
+        },
+        "UpdatePotConfiguration": {
+            "type": "object",
+            "properties": {
+                "PotName": {
+                    "type": "string"
+                },
+                "CelebrationTypeCode": {
+                    "enum": [
+                        "Birthday",
+                        "Housewarming",
+                        "Diploma",
+                        "StagParty",
+                        "Wedding",
+                        "Thanks",
+                        "Baptism",
+                        "Fairwell",
+                        "Party",
+                        "Holidays",
+                        "OtherGift"
+                    ],
+                    "type": "string"
+                },
+                "PotDescription": {
+                    "type": "string"
+                },
+                "DateEnd": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "OwnerName": {
+                    "type": "string"
+                },
+                "HideName": {
+                    "type": "boolean"
+                },
+                "HideAmount": {
+                    "type": "boolean"
+                },
+                "HideTotalAmount": {
+                    "type": "boolean"
+                },
+                "CustomImageUrl": {
+                    "type": "string"
+                },
+                "MerchantCustomer": {
+                    "$ref": "#/definitions/MerchantCustomer"
+                }
+            }
+        },
+        "Participation": {
+            "type": "object",
+            "properties": {
+                "AccountId": {
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "ParticipationId": {
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "ParticipantAccountId": {
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "Amount": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "DateParticipation": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "HideName": {
+                    "type": "boolean"
+                },
+                "HideAmount": {
+                    "type": "boolean"
+                },
+                "MerchantId": {
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "MerchantCustomerId": {
+                    "type": "string"
+                },
+                "LastName": {
+                    "type": "string"
+                },
+                "FirstName": {
+                    "type": "string"
+                },
+                "Mail": {
+                    "type": "string"
+                }
+            }
+        },
+        "UpdatePotStatus": {
+            "type": "object",
+            "properties": {
+                "State": {
+                    "enum": [
+                        "Enable",
+                        "Disable",
+                        "InProgress",
+                        "Completed",
+                        "Canceled"
+                    ],
+                    "type": "string"
+                },
+                "MerchantCustomer": {
+                    "$ref": "#/definitions/MerchantCustomer"
+                }
+            }
+        }
+    }
+}
