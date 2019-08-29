@@ -10,6 +10,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { withStyles } from "@material-ui/styles";
 import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
 import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutlined";
+import { func, object } from "prop-types";
 
 const useStyles = theme => ({
   root: {
@@ -24,41 +25,49 @@ const useStyles = theme => ({
 });
 
 class Header extends PureComponent {
-  renderAppBar = () => {
-    const { classes } = this.props;
-    return (
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.menuButton}>
-            DocumentationApi
-          </Typography>
-          <Typography variant="h6" className={classes.title}>
-            Mon autre documentation
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    );
+  constructor() {
+    super();
+    this.state = {
+      themeClaire: true
+    };
+  }
+  handleChangeTheme = () => {
+    const { currentValue } = this.state;
+    this.setState({ themeClaire: !currentValue });
+    if (this.props.changeTheme) {
+      this.props.changeTheme(!currentValue);
+    }
   };
+
   render = () => {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton}>
-              <WbIncandescentOutlinedIcon />
-            </IconButton>
             <Typography variant="h6" className={classes.menuButton}>
               DocumentationApi
             </Typography>
             <Typography variant="h6" className={classes.title}>
               DocumentationApi Title
             </Typography>
+            <IconButton className={classes.menuButton}>
+              <WbIncandescentOutlinedIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
       </div>
     );
   };
 }
+
+Header.defaultProps = {
+  changeTheme: Function.prototype
+};
+Header.propTypes = {
+  changeTheme: func,
+  // eslint-disable-next-line react/forbid-prop-types
+  classes: object.isRequired
+};
 
 export default withStyles(useStyles, { withTheme: true })(Header);

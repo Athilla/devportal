@@ -1,23 +1,36 @@
-import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import React, { Component, Fragment } from 'react';
-import Header from '../Header';
-import Redoc from '../Redoc';
+import {
+  Redirect,
+  Route,
+  BrowserRouter as Router,
+  Switch
+} from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import React, { Component, Fragment } from "react";
+import Header from "../Header";
+import Redoc from "../Redoc";
 
 const styles = {
   root: {
-    flexGrow: 1,
-  },
+    flexGrow: 1
+  }
 };
 
 class App extends Component {
+  handleChangeTheme = themeClaire => {
+    if (themeClaire) {
+      console.log("Theme Claire ");
+    } else {
+      console.log("theme Foncé");
+    }
+  };
+
   rendera = () => {
     return (
       <div className="App">
         <Router>
           <Fragment>
-            <Header />
+            <Header changeTheme={this.handleChangeTheme} />
             <Grid container spacing={8}>
               <Grid item xs={12}>
                 <Switch>
@@ -37,7 +50,7 @@ class App extends Component {
         <Fragment>
           <Header />
           <Grid container spacing={8}>
-            <Grid item xs={12}></Grid>
+            <Grid item xs={12} />
           </Grid>
         </Fragment>
       </div>
