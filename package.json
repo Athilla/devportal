@@ -31,11 +31,7 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -43,9 +39,6 @@
     ]
   },
   "devDependencies": {
-    "@cdiscount/eslint-config-cdiscount-base": "^4.0.0",
-    "@cdiscount/eslint-config-cdiscount-react": "^6.0.0",
-    "@cdiscount/jest-it-renders-all-mutations": "^3.4.0",
     "eslint": "^6.2.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
@@ -56,9 +49,6 @@
     "react-router-prop-types": "^1.0.4"
   },
   "lint-staged": {
-    "*.{js,jsx,css,scss,json,md}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,jsx,css,scss,json,md}": ["prettier --write", "git add"]
   }
 }

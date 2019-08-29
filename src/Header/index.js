@@ -1,11 +1,5 @@
 import React, { PureComponent } from "react";
-import {
-  AppBar,
-  Button,
-  Toolbar,
-  Typography,
-  IconButton
-} from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { withStyles } from "@material-ui/styles";
 import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
@@ -32,15 +26,15 @@ class Header extends PureComponent {
     };
   }
   handleChangeTheme = () => {
-    const { currentValue } = this.state;
-    this.setState({ themeClaire: !currentValue });
-    if (this.props.changeTheme) {
-      this.props.changeTheme(!currentValue);
-    }
+    const { themeClaire } = this.state;
+    console.log(!themeClaire);
+    this.setState({ themeClaire: !themeClaire });
+    this.props.changeTheme(!themeClaire);
   };
 
   render = () => {
     const { classes } = this.props;
+    const { themeClaire } = this.state;
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -51,9 +45,13 @@ class Header extends PureComponent {
             <Typography variant="h6" className={classes.title}>
               DocumentationApi Title
             </Typography>
-            <IconButton className={classes.menuButton}>
-              <WbIncandescentOutlinedIcon />
-            </IconButton>
+            <Button
+              className={classes.menuButton}
+              onClick={this.handleChangeTheme}
+            >
+              {themeClaire && <WbIncandescentOutlinedIcon />}
+              {!themeClaire && <WbIncandescentRoundedIcon />}
+            </Button>
           </Toolbar>
         </AppBar>
       </div>

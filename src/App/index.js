@@ -18,14 +18,17 @@ const styles = {
 
 class App extends Component {
   handleChangeTheme = themeClaire => {
+    // console.log(this.props.theme);
     if (themeClaire) {
-      console.log("Theme Claire ");
+      //console.log("Theme Claire ");
+      this.props.theme.palette.type = "light";
     } else {
-      console.log("theme Foncé");
+      //console.log("theme Foncé");
+      this.props.theme.palette.type = "dark";
     }
   };
 
-  rendera = () => {
+  render = () => {
     return (
       <div className="App">
         <Router>
@@ -44,7 +47,7 @@ class App extends Component {
       </div>
     );
   };
-  render = () => {
+  renderb = () => {
     return (
       <div className="App">
         <Fragment>
