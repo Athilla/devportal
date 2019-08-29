@@ -9,12 +9,28 @@ import Grid from "@material-ui/core/Grid";
 import React, { Component, Fragment } from "react";
 import Header from "../Header";
 import Redoc from "../Redoc";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Toolbar from "@material-ui/core/Toolbar";
 
-const styles = {
+const styles = theme => ({
   root: {
-    flexGrow: 1
+    display: "flex",
+    flexGrow: 1,
+
+    position: "fixed",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2)
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
   }
-};
+});
 
 class App extends Component {
   handleChangeTheme = themeClaire => {
@@ -33,15 +49,15 @@ class App extends Component {
       <div className="App">
         <Router>
           <Fragment>
+            <CssBaseline />
             <Header changeTheme={this.handleChangeTheme} />
-            <Grid container spacing={8}>
-              <Grid item xs={12}>
-                <Switch>
-                  <Route path="/Documentation" component={Redoc} />
-                  <Redirect to="/Documentation" />
-                </Switch>
-              </Grid>
-            </Grid>
+            <Toolbar id="back-to-top-anchor" />
+            <Container>
+              <Switch>
+                <Route path="/Documentation" component={Redoc} />
+                <Redirect to="/Documentation" />
+              </Switch>
+            </Container>
           </Fragment>
         </Router>
       </div>

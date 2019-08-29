@@ -7,9 +7,6 @@ import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutline
 import { func, object } from "prop-types";
 
 const useStyles = theme => ({
-  root: {
-    flexGrow: 1
-  },
   menuButton: {
     marginRight: theme.spacing(2)
   },
@@ -36,25 +33,23 @@ class Header extends PureComponent {
     const { classes } = this.props;
     const { themeClaire } = this.state;
     return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" className={classes.menuButton}>
-              DocumentationApi
-            </Typography>
-            <Typography variant="h6" className={classes.title}>
-              DocumentationApi Title
-            </Typography>
-            <Button
-              className={classes.menuButton}
-              onClick={this.handleChangeTheme}
-            >
-              {themeClaire && <WbIncandescentOutlinedIcon />}
-              {!themeClaire && <WbIncandescentRoundedIcon />}
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </div>
+      <AppBar id="Appbar">
+        <Toolbar>
+          <Typography variant="h6" className={classes.menuButton}>
+            DocumentationApi
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            DocumentationApi Title
+          </Typography>
+          <Button
+            className={classes.menuButton}
+            onClick={this.handleChangeTheme}
+          >
+            {themeClaire && <WbIncandescentOutlinedIcon />}
+            {!themeClaire && <WbIncandescentRoundedIcon />}
+          </Button>
+        </Toolbar>
+      </AppBar>
     );
   };
 }
