@@ -13,11 +13,12 @@ import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 
-const styles = theme => ({
+const classes = theme => ({
   root: {
     display: "flex",
     flexGrow: 1,
-
+    width: "100%",
+    maxWidth: "100%",
     position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(2)
@@ -45,14 +46,16 @@ class App extends Component {
   };
 
   render = () => {
+    const { classes } = this.props;
+
     return (
-      <div className="App">
+      <div className="{classes.root}">
         <Router>
           <Fragment>
             <CssBaseline />
             <Header changeTheme={this.handleChangeTheme} />
             <Toolbar id="back-to-top-anchor" />
-            <Container>
+            <Container maxWidth="false">
               <Switch>
                 <Route path="/Documentation" component={Redoc} />
                 <Redirect to="/Documentation" />
@@ -77,4 +80,4 @@ class App extends Component {
   };
 }
 
-export default withStyles(styles, { withTheme: true })(App);
+export default withStyles(classes, { withTheme: true })(App);
