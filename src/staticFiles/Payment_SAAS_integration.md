@@ -21,7 +21,7 @@ This documentation describes the integration procedures for Payment SAAS
 [Annex](#annex)
 -----------------
 
-# Integration modes 
+## Integration modes 
 
 Payments can be achieved by two ways with Payment SAAS : using the
 **Hosted Forms**, or the **REST API (server to server)**
@@ -103,59 +103,43 @@ with the client browser.
 
 **Redirection Form**
 
-\<form method=\"post\" name=\"PaymentForm\" action
+```js
+var React = require('react');
+var Markdown = require('react-markdown');
+
+React.render(
+  <Markdown source="# Your markdown here" />,
+  document.getElementById('content')
+);
+```
+
+```HTML
+<form method=\"post\" name=\"PaymentForm\" action
 =\"https://\[Front-end URL - See Test environments\]\"\>
-
-\<input type=\"hidden\" name=\"version\" value=\"1.0\"/\>
-
-\<input type=\"hidden\" name=\"merchantID\" value=\"1\"/\>
-
-\<input type=\"hidden\" name=\"merchantSiteID\" value=\"100\"/\>
-
-\<input type=\"hidden\" name=\"paymentOptionRef\" value=\"1\"/\>
-
-\<input type=\"hidden\" name=\"orderRef\" value=\"0907061128WLK0G\"/\>
-
-\<input type=\"hidden\" name=\"freeText\" value=\"\"/\>
-
-\<input type=\"hidden\" name=\"decimalPosition\" value=\"2\"/\>
-
-\<input type=\"hidden\" name=\"currency\" value=\"EUR\"/\>
-
-\<input type=\"hidden\" name=\"country\" value=\"FR\"/\>
-
-\<input type=\"hidden\" name=\"invoiceID\" value=\"115224183\"/\>
-
-\<input type=\"hidden\" name=\"customerRef\" value=\"000000091XLW\"/\>
-
-\<input type=\"hidden\" name=\"date\" value=\"20090706\"/\>
-
-\<input type=\"hidden\" name=\"amount\" value=\"15000\"/\>
-
-\<input type=\"hidden\" name=\"merchantHomeUrl\"
-value=\"http://www.merchant.com\"/\>
-
-\<input type=\"hidden\" name=\"merchantBackUrl\"
-value=\"http://www.merchant.com/order/payment\_choice.aspx\"/\>
-
-\<input type=\"hidden\" name=\"merchantReturnUrl\"
-value=\"http://www.merchant.com/order/payment\_return.aspx\"/\>
-
-\<input type=\"hidden\" name=\"merchantNotifyUrl\"
-value=\"http://www.merchant.com/order/payment\_notify.ashx\"/\>
-
-\<input type=\"hidden\" name=\"orderRowsAmount\" value=\"0\"/\>
-
-\<input type=\"hidden\" name=\"orderFeesAmount\" value=\"0\" /\>
-
-\<input type=\"hidden\" name=\"orderDiscountAmount\" value=\"0\" /\>
-
-\<input type=\"hidden\" name=\"orderShippingCost\" value=\"0\" /\>
-
-\<input type=\"hidden\" name=\"hmac\"
-value=\"66F36A5FD022B920941F213FAE7AE95E7C97EEB7\"/\>
-
-\</form\>
+<input type=\"hidden\" name=\"version\" value=\"1.0\"/\>
+<input type=\"hidden\" name=\"merchantID\" value=\"1\"/\>
+<input type=\"hidden\" name=\"merchantSiteID\" value=\"100\"/\>
+<input type=\"hidden\" name=\"paymentOptionRef\" value=\"1\"/\>
+<input type=\"hidden\" name=\"orderRef\" value=\"0907061128WLK0G\"/\>
+<input type=\"hidden\" name=\"freeText\" value=\"\"/\>
+<input type=\"hidden\" name=\"decimalPosition\" value=\"2\"/\>
+<input type=\"hidden\" name=\"currency\" value=\"EUR\"/\>
+<input type=\"hidden\" name=\"country\" value=\"FR\"/\>
+<input type=\"hidden\" name=\"invoiceID\" value=\"115224183\"/\>
+<input type=\"hidden\" name=\"customerRef\" value=\"000000091XLW\"/\>
+<input type=\"hidden\" name=\"date\" value=\"20090706\"/\>
+<input type=\"hidden\" name=\"amount\" value=\"15000\"/\>
+<input type=\"hidden\" name=\"merchantHomeUrl\" value=\"http://www.merchant.com\"/\>
+<input type=\"hidden\" name=\"merchantBackUrl\" value=\"http://www.merchant.com/order/payment\_choice.aspx\"\>
+<input type=\"hidden\" name=\"merchantReturnUrl\" value=\"http://www.merchant.com/order/payment\_return.aspx\"\>
+<input type=\"hidden\" name=\"merchantNotifyUrl\" value=\"http://www.merchant.com/order/payment\_notify.ashx\">
+<input type=\"hidden\" name=\"orderRowsAmount\" value=\"0\"/\>
+<input type=\"hidden\" name=\"orderFeesAmount\" value=\"0\" /\>
+<input type=\"hidden\" name=\"orderDiscountAmount\" value=\"0\" /\>
+<input type=\"hidden\" name=\"orderShippingCost\" value=\"0\" /\>
+<input type=\"hidden\" name=\"hmac\" value=\"66F36A5FD022B920941F213FAE7AE95E7C97EEB7\"\>
+</form\>
+```
 
 After the processing of the payment request, Payment SAAS redirects the
 client to the merchant server, with the given URL provided in the
@@ -164,7 +148,7 @@ field *merchantReturnUrl.*
 **Sample form sended by Payment SAAS to the return url :**
 
 **Merchant return form**
-
+```ruby
 \<form method=\"post\" name=\"PaymentForm\"
 action=\"\[merchantReturnUrl\]\"\>
 
@@ -203,6 +187,7 @@ value=\"CBCE\@SIPS\"/\>
 value=\"66F36A5FD022B920941F213FAE7AE95E7C97EEB7\"/\>
 
 \</form\>
+```
 
  Notification of the payment response
 ====================================
