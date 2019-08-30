@@ -9,7 +9,7 @@ Getting started
 
 This documentation describes the integration procedures for Payment SAAS
 
-[Integration modes](#IntegrationMode)
+[Integration modes](#Integration_modes)
 -----------------------------------------
 
 [Payment Methods](#payment-methods)
@@ -21,7 +21,7 @@ This documentation describes the integration procedures for Payment SAAS
 [Annex](#annex)
 -----------------
 
-## Integration modes 
+# Integration modes 
 
 Payments can be achieved by two ways with Payment SAAS : using the
 **Hosted Forms**, or the **REST API (server to server)**
@@ -63,15 +63,9 @@ Functional details for Hosted Forms
  Basic Scheme (Hosted Forms)
 ===========================
 
-+-----------------------------------------------------------------------+
-|   ------------------------------------------------------------------- |
-| -----------------                                                     |
-|   ![./media/_1.png](media/image1.png){width="4.875in" height="3.47916 |
-| 66666666665in"}                                                       |
-|   ------------------------------------------------------------------- |
-| -----------------                                                     |
-+-----------------------------------------------------------------------+
+![media/_1.png](media/image1.png){width="4.875in" height="3.4791666666666665in"}                              
 
+                         |
 The basic scheme of a payment with Payment SAAS with the hosted forms
 follows this routine :
 
