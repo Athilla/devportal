@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import React, { Component, Fragment } from "react";
 import Header from "../Header";
 import Redoc from "../Redoc";
+import Md from "../Md";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -57,8 +58,9 @@ class App extends Component {
             <Toolbar id="back-to-top-anchor" />
             <Container maxWidth="false">
               <Switch>
-                <Route path="/Documentation" component={Redoc} />
-                <Redirect to="/Documentation" />
+                <Route path="/ApiDocumentation" component={Redoc} />
+                <Route path="/Payment_saas_integration" component={Md} />
+                <Redirect to="/Payment_saas_integration" />
               </Switch>
             </Container>
           </Fragment>
