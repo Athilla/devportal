@@ -10,6 +10,7 @@ import React, { Component, Fragment } from "react";
 import Header from "../Header";
 import Redoc from "../Redoc";
 import Md from "../Md";
+import MdEditor from "../MdEditor";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -60,6 +61,7 @@ class App extends Component {
               <Switch>
                 <Route path="/ApiDocumentation" component={Redoc} />
                 <Route path="/Payment_saas_integration" component={Md} />
+                <Route path="/editor" component={MdEditor} />
                 <Redirect to="/Payment_saas_integration" />
               </Switch>
             </Container>
