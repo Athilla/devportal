@@ -53,7 +53,7 @@ class App extends Component {
               <Switch>
                 <Route path="/ApiDocumentation" component={Redoc} />
                 <Route path="/Payment_saas_integration" component={Md} />
-                <Redirect to="/Payment_saas_integration" />
+                <Redirect to="/ApiDocumentation" />
               </Switch>
             </Container>
           </Fragment>

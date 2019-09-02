@@ -11,7 +11,16 @@ class Redoc extends Component {
   render = () => {
     return (
       // https://github.com/Redocly/redoc#redoc-options-object
-      <RedocStandalone spec={this.localData()} />
+      <RedocStandalone
+        spec={this.localData()}
+        options={{
+          nativeScrollbars: true,
+          hideDownloadButton: true,
+          scrollYOffset: '#Appbar',
+          hideLoading: true,
+          showExtensions: true,
+        }}
+      />
     );
   };
 }

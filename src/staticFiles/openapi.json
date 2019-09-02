@@ -2,38 +2,49 @@
   "swagger": "2.0",
   "info": {
     "version": "v1",
-    "title": "Cdiscount wallet_api",
-    "description": "# Heading\r\n\r\nText attributes _italic_, *italic*, __bold__, **bold**, `monospace`.\r\n\r\nHorizontal rule:\r\n\r\n---\r\n\r\nBullet list:\r\n\r\n  * apples\r\n  * oranges\r\n  * pears\r\n\r\nNumbered list:\r\n\r\n  1. apples\r\n  2. oranges\r\n  3. pears\r\n\r\nA [link](http://example.com).\r\n\r\nAn image:\r\n![Swagger logo](https://raw.githubusercontent.com/swagger-api/swagger-ui/master/dist/favicon-32x32.png)\r\n\r\nCode block:\r\n\r\n<code>\r\n{\r\n  \"message\": \"Hello, world!\"\r\n}\r\n</code>\r\nTables:\r\n\r\n| Column1 | Collumn2 |\r\n| ------- | -------- |\r\n| cell1   | cell2    |"
+    "title": "Payment Gateway"
   },
   "paths": {
-    "/api/Contributes": {
+    "/v1/card/creditHolder": {
       "post": {
-        "tags": ["Contributes"],
-        "summary": "Method to handle contribute actions",
-        "description": "# foo\r\n-&gt; level1\r\n## foo\r\n-&gt; level2\r\n### foo\r\n-&gt; level3\r\n#### foo\r\n-&gt; level4\r\n##### foo\r\n-&gt; level5\r\n###### foo\r\n-&gt; level6",
-        "operationId": "ApiContributesPost",
-        "consumes": ["application/json"],
+        "tags": ["Card"],
+        "summary": "Credit a card payment",
+        "operationId": "V1CardCreditHolderPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
         "produces": ["application/json"],
         "parameters": [
           {
-            "name": "contributeRequest",
+            "name": "request",
             "in": "body",
             "description": "",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/ContributeRequest"
+              "$ref": "#/definitions/CardPaymentCreditHolderRequest"
             }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/PaymentMessage"
+              "$ref": "#/definitions/CardPaymentCreditHolderResponse"
             }
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Server Error"
@@ -41,1054 +52,4170 @@
         }
       }
     },
-    "/api/Pots": {
-      "post": {
-        "tags": ["Pots"],
-        "summary": "Create a pot",
-        "description": "### un petit tableau pour faire beau :) ###\r\n\r\n| Titre 1       |     Titre 2     |        Titre 3 |\r\n| :------------ | :-------------: | -------------: |\r\n| Colonne       |     Colonne     |        Colonne |\r\n| Alignée à     |   Alignée au    |      Alignée à |\r\n| Gauche        |     Centre      |         Droite |",
-        "operationId": "ApiPotsPost",
-        "consumes": ["application/json"],
+    "/v1/payments/card3ds-payment": {
+      "put": {
+        "tags": ["Card3DsPayment"],
+        "summary": "Finish the 3DS payment.\r\nReuse the order references and the paymentRequestId (returned from the POST).",
+        "operationId": "V1PaymentsCard3ds-paymentPut",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
         "produces": ["application/json"],
         "parameters": [
           {
-            "name": "createPot",
+            "name": "card3DsPaymentPutRequest",
             "in": "body",
-            "description": "",
+            "description": "The card payment put request.",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/CreatePot"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Successfully created",
-            "schema": {
-              "$ref": "#/definitions/Pot"
+              "$ref": "#/definitions/Card3DsPaymentPutRequest"
             }
           },
-          "400": {
-            "description": "Bad request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/Pots/{accountKey}": {
-      "get": {
-        "tags": ["Pots"],
-        "summary": "Get the details of the pot",
-        "description": "### REMARKS ###\r\nUse this call to retrieve a list of entities and their descriptions. This is used when setting up a new ViewSet.\r\n- Returns an array of **EntityDescription** objects.\r\n- The array is `ordered alphabetically` by the Name property.\r\n \r\n<pre>\r// contrived code sample to demonstrate code block in swagger.\rfor (i=0; i < 5; i++)\r{\r    doesthiswork = yesitdoes;\r}\r</pre>\r\n",
-        "operationId": "ApiPotsByAccountKeyGet",
-        "consumes": [],
-        "produces": ["application/json"],
-        "parameters": [
           {
-            "name": "accountKey",
-            "in": "path",
-            "description": "the pot id (Guid)",
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Pot"
+              "$ref": "#/definitions/CardPaymentResponse"
             }
           },
-          "404": {
-            "description": "Not Found"
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Server Error"
           }
         }
       },
-      "patch": {
-        "tags": ["Pots"],
-        "summary": "Update a Pot Configuration (name, description, etc.)",
-        "operationId": "ApiPotsByAccountKeyPatch",
-        "consumes": ["application/json"],
-        "produces": [],
-        "parameters": [
-          {
-            "name": "accountKey",
-            "in": "path",
-            "description": "",
-            "required": true,
-            "type": "string",
-            "format": "uuid"
-          },
-          {
-            "name": "patchPotConfiguration",
-            "in": "body",
-            "description": "",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/UpdatePotConfiguration"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/Pots/{accountKey}/participations": {
-      "get": {
-        "tags": ["Pots"],
-        "summary": "Get the list of participations",
-        "operationId": "ApiPotsByAccountKeyParticipationsGet",
-        "consumes": [],
+      "post": {
+        "tags": ["Card3DsPayment"],
+        "summary": "Achieve a 3DS payment (CheckEnrollment)",
+        "operationId": "V1PaymentsCard3ds-paymentPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
         "produces": ["application/json"],
         "parameters": [
           {
-            "name": "accountKey",
-            "in": "path",
-            "description": "",
+            "name": "card3DSPaymentRequest",
+            "in": "body",
+            "description": "All data needed to make a 3DS card payment",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Card3DsPaymentRequest"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "schema": {
-              "uniqueItems": false,
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Participation"
-              }
+              "$ref": "#/definitions/CardPaymentResponse"
             }
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/Pots/{accountKey}/state": {
-      "patch": {
-        "tags": ["Pots"],
-        "summary": "Update the pot (status)",
-        "operationId": "ApiPotsByAccountKeyStatePatch",
-        "consumes": ["application/json"],
-        "produces": [],
-        "parameters": [
-          {
-            "name": "accountKey",
-            "in": "path",
-            "description": "The account key",
-            "required": true,
-            "type": "string",
-            "format": "uuid"
-          },
-          {
-            "name": "updatePotStatus",
-            "in": "body",
-            "description": "The update pot status",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/UpdatePotStatus"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
           },
           "400": {
-            "description": "Bad request"
+            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Server Error"
           }
         }
       }
     },
-    "/api/Users/{userKey}/pots": {
-      "get": {
-        "tags": ["Users"],
-        "summary": "Get the list of pots of the user",
-        "operationId": "ApiUsersByUserKeyPotsGet",
-        "consumes": [],
+    "/v1/payments/card-payment": {
+      "post": {
+        "tags": ["CardPayment"],
+        "summary": "Achieve a payment with a card without 3DSecure.\r\nTo achieve a 3DS payment (CheckEnrollment), see the /payment/card3ds-payment resource.",
+        "operationId": "V1PaymentsCard-paymentPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
         "produces": ["application/json"],
         "parameters": [
           {
-            "name": "userKey",
-            "in": "path",
-            "description": "",
+            "name": "cardPaymentRequest",
+            "in": "body",
+            "description": "All data needed to make card payment",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CardPaymentRequest"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
             "required": true,
-            "type": "string",
-            "format": "uuid"
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "schema": {
-              "uniqueItems": false,
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pot"
-              }
+              "$ref": "#/definitions/CardPaymentResponse"
             }
           },
-          "404": {
-            "description": "Not Found"
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payments/duplicate-payment": {
+      "post": {
+        "tags": ["DuplicatePayment"],
+        "summary": "Achieve a payment by copy of a previously processed payment, with the same payment method.",
+        "operationId": "V1PaymentsDuplicate-paymentPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "duplicatePaymentRequest",
+            "in": "body",
+            "description": "All data needed to make process the payment, with the reference to the previously payment.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/DuplicatePaymentRequest"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CardPaymentResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payments/duplicate-payment/batch": {
+      "post": {
+        "tags": ["DuplicatePayment"],
+        "summary": "Achieve a batch of payments by copy of previously processed payments, with the same payment method.",
+        "operationId": "V1PaymentsDuplicate-paymentBatchPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "duplicatePaymentBatchRequest",
+            "in": "body",
+            "description": "All data needed to make process the payment, with the reference to the previously payment.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/DuplicatePaymentBatchRequest"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CardPaymentResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payment-options/merchants/{merchantId}/sites/{merchantSiteId}": {
+      "get": {
+        "tags": ["PaymentOptions"],
+        "summary": "Gets the payment options for a specified site.",
+        "operationId": "V1Payment-optionsMerchantsByMerchantIdSitesByMerchantSiteIdGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "path",
+            "description": "The merchant identifier.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "merchantSiteId",
+            "in": "path",
+            "description": "The merchant site identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PaymentOptionsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payment-options": {
+      "post": {
+        "tags": ["PaymentOptions"],
+        "summary": "Gets the payment options for a specified context.",
+        "operationId": "V1Payment-optionsPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "paymentOptionsRequest",
+            "in": "body",
+            "description": "The payment options request.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PaymentOptionsRequest"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PaymentOptionsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payment-options/validateEligibility": {
+      "post": {
+        "tags": ["PaymentOptions"],
+        "summary": "Validates the eligibility of the given payment option, according to context.",
+        "operationId": "V1Payment-optionsValidateEligibilityPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
+        "produces": [],
+        "parameters": [
+          {
+            "name": "paymentOptionEligibilityRequest",
+            "in": "body",
+            "description": "The payment option eligibility request.",
+            "required": false,
+            "schema": {
+              "type": "object"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/v1/payments/{orderRef}/merchants/{merchantId}/sites/{merchantSiteId}": {
+      "get": {
+        "tags": ["Payments"],
+        "summary": "Gets the details for a specified OrderRef.",
+        "operationId": "V1PaymentsByOrderRefMerchantsByMerchantIdSitesByMerchantSiteIdGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "orderRef",
+            "in": "path",
+            "description": "The order reference.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "merchantId",
+            "in": "path",
+            "description": "The merchant identifier.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "merchantSiteId",
+            "in": "path",
+            "description": "The merchant site identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PaymentOperationsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payments/{orderRef}/merchants/{merchantId}/sites/{merchantSiteId}/{orderTag}": {
+      "get": {
+        "tags": ["Payments"],
+        "summary": "Gets the details for a specified couple of OrderRef/OrderTag.",
+        "operationId": "V1PaymentsByOrderRefMerchantsByMerchantIdSitesByMerchantSiteIdByOrderTagGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "orderRef",
+            "in": "path",
+            "description": "The order reference.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "merchantId",
+            "in": "path",
+            "description": "The merchant identifier.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "merchantSiteId",
+            "in": "path",
+            "description": "The merchant site identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "orderTag",
+            "in": "path",
+            "description": "The order Tag",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PaymentOperationsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payments/{orderRef}/operations/{operation}": {
+      "put": {
+        "tags": ["Payments"],
+        "summary": "Executes a payment operation on the specified OrderRef.",
+        "operationId": "V1PaymentsByOrderRefOperationsByOperationPut",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "orderRef",
+            "in": "path",
+            "description": "The OrderRef.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operation",
+            "in": "path",
+            "description": "The operation to be executed. Can be CAPTURE, CANCELORREFUND, or RECOMPUTE",
+            "required": true,
+            "type": "string",
+            "enum": ["unknown", "capture", "cancelOrRefund", "recompute"]
+          },
+          {
+            "name": "paymentOperationRequest",
+            "in": "body",
+            "description": "The payment operation request. Materialized by the Body of the PUT request",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PaymentOperationsRequest"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PaymentOperationsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payment-sessions": {
+      "post": {
+        "tags": ["PaymentSession"],
+        "summary": "Creates a payment session.",
+        "operationId": "V1Payment-sessionsPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "paymentSessionRequest",
+            "in": "body",
+            "description": "The payment session request.",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PaymentSessionRequest"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PaymentSessionResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/payment-sessions/{paymentSessionId}/paymentResult": {
+      "get": {
+        "tags": ["PaymentSession"],
+        "summary": "Gets the payment result from its session id.",
+        "operationId": "V1Payment-sessionsByPaymentSessionIdPaymentResultGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "paymentSessionId",
+            "in": "path",
+            "description": "The payment session id.",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/GetPaymentSessionResult"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/auth/token": {
+      "get": {
+        "tags": ["SecurityToken"],
+        "summary": "Get the token provided by the Security Token Service (STS).\r\nThe authentication token is mandatory for the others api calls.\r\nIt's expire after 48h by default.",
+        "description": "See the following lines for example :     GET /v1/auth/token     {        \"authorization\": \"Y2Rpc2NvdW50OmNkaXNjb3VudDEyMzQv\"     }",
+        "operationId": "V1AuthTokenGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "The credentials (login:password in base64)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/stored-payment-methods/merchants/{merchantId}/sites/{merchantSiteId}/customerRef/{customerRef}": {
+      "get": {
+        "tags": ["StoredPaymentMethods"],
+        "summary": "Gets the stored payment methods by customer reference.",
+        "operationId": "V1Stored-payment-methodsMerchantsByMerchantIdSitesByMerchantSiteIdCustomerRefByCustomerRefGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "path",
+            "description": "The merchant identifier.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "merchantSiteId",
+            "in": "path",
+            "description": "The merchant site identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "customerRef",
+            "in": "path",
+            "description": "The customer reference.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StoredPaymentMethodResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/stored-payment-methods/merchants/{merchantId}/sites/{merchantSiteId}/storedPaymentMethodId/{storedPaymentMethodId}": {
+      "get": {
+        "tags": ["StoredPaymentMethods"],
+        "summary": "Gets the stored payment method by identifier.",
+        "operationId": "V1Stored-payment-methodsMerchantsByMerchantIdSitesByMerchantSiteIdStoredPaymentMethodIdByStoredPaymentMethodIdGet",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "merchantSiteId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "storedPaymentMethodId",
+            "in": "path",
+            "description": "The stored payment method identifier.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StoredPaymentMethodResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["StoredPaymentMethods"],
+        "summary": "Deletes the specified stored payment method.",
+        "operationId": "V1Stored-payment-methodsMerchantsByMerchantIdSitesByMerchantSiteIdStoredPaymentMethodIdByStoredPaymentMethodIdDelete",
+        "consumes": [],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "merchantId",
+            "in": "path",
+            "description": "The merchant identifier",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "merchantSiteId",
+            "in": "path",
+            "description": "The merchant site identifier",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "storedPaymentMethodId",
+            "in": "path",
+            "description": "The stored payment method identifier",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/v1/stored-payment-methods": {
+      "post": {
+        "tags": ["StoredPaymentMethods"],
+        "summary": "Creates the specified stored payment method.",
+        "operationId": "V1Stored-payment-methodsPost",
+        "consumes": ["application/json-patch+json", "application/json", "text/json", "application/*+json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "storedPaymentMethodRequest",
+            "in": "body",
+            "description": "The stored payment method",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/StoredPaymentMethodRequest"
+            }
+          },
+          {
+            "name": "authToken",
+            "in": "header",
+            "description": "Gets or sets the authentication token.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Server Error"
           }
         }
       }
     }
   },
   "definitions": {
-    "ContributeRequest": {
-      "description": "Request class for a Contribute request",
+    "CardPaymentCreditHolderRequest": {
+      "description": "request object for CardPaymentCreditHolder",
       "type": "object",
       "properties": {
-        "AccountID": {
-          "format": "int64",
-          "description": "id of the account",
-          "type": "integer"
-        },
-        "Amount": {
-          "format": "double",
-          "description": "amount of the participation",
-          "type": "number"
-        },
-        "HideName": {
-          "description": "the participant want hide his name",
-          "type": "boolean"
-        },
-        "HideAmount": {
-          "description": "the participant want hide the amount",
-          "type": "boolean"
-        },
-        "MerchantId": {
-          "format": "int64",
-          "description": "Id of the merchant",
-          "type": "integer"
-        },
-        "MerchantCustomerID": {
-          "description": "id of the customer for the merchant",
-          "type": "string"
-        },
-        "LastName": {
-          "description": "last name of the participant",
-          "type": "string"
-        },
-        "FirstName": {
-          "description": "fisrt name of the participant",
-          "type": "string"
-        },
-        "Mail": {
-          "description": "mail of the participant",
-          "type": "string"
-        }
-      }
-    },
-    "PaymentMessage": {
-      "description": "Object paymentMessage class",
-      "type": "object",
-      "properties": {
-        "actionUrl": {
-          "description": "actionUrl",
-          "type": "string"
-        },
-        "version": {
-          "description": "version",
-          "type": "string"
-        },
         "merchantId": {
-          "description": "merchantId",
-          "type": "string"
+          "format": "int32",
+          "description": "The merchant identifier",
+          "type": "integer"
         },
-        "merchantSideId": {
-          "description": "merchantSideId",
-          "type": "string"
-        },
-        "paymentOptionRef": {
-          "description": "paymentOptionRef",
-          "type": "string"
-        },
-        "orderRef": {
-          "description": "orderRef",
-          "type": "string"
-        },
-        "orderTag": {
-          "description": "orderTag",
-          "type": "string"
-        },
-        "orderTag_prefix": {
-          "description": "orderTag_prefix",
-          "type": "string"
-        },
-        "orderTag_suffix": {
-          "description": "orderTag_suffix",
-          "type": "string"
-        },
-        "freeText": {
-          "description": "freeText",
-          "type": "string"
-        },
-        "decimalPosition": {
-          "description": "decimalPosition",
+        "merchantSiteId": {
+          "description": "The merchant site identifier",
           "type": "string"
         },
         "currency": {
-          "description": "currency",
+          "description": "The currency of the order (ISO 4217)",
+          "enum": [
+            "unknown",
+            "aed",
+            "afn",
+            "all",
+            "amd",
+            "ang",
+            "aoa",
+            "ars",
+            "aud",
+            "awg",
+            "azn",
+            "bam",
+            "bbd",
+            "bdt",
+            "bgn",
+            "bhd",
+            "bif",
+            "bmd",
+            "bnd",
+            "bob",
+            "bov",
+            "brl",
+            "bsd",
+            "btn",
+            "bwp",
+            "byr",
+            "bzd",
+            "cad",
+            "cdf",
+            "che",
+            "chf",
+            "chw",
+            "clf",
+            "clp",
+            "cny",
+            "cop",
+            "cou",
+            "crc",
+            "cuc",
+            "cup",
+            "cve",
+            "czk",
+            "djf",
+            "dkk",
+            "dop",
+            "dzd",
+            "egp",
+            "ern",
+            "etb",
+            "eur",
+            "fjd",
+            "fkp",
+            "gbp",
+            "gel",
+            "ghs",
+            "gip",
+            "gmd",
+            "gnf",
+            "gtq",
+            "gyd",
+            "hkd",
+            "hnl",
+            "hrk",
+            "htg",
+            "huf",
+            "idr",
+            "ils",
+            "inr",
+            "iqd",
+            "irr",
+            "isk",
+            "jmd",
+            "jod",
+            "jpy",
+            "kes",
+            "kgs",
+            "khr",
+            "kmf",
+            "kpw",
+            "krw",
+            "kwd",
+            "kyd",
+            "kzt",
+            "lak",
+            "lbp",
+            "lkr",
+            "lrd",
+            "lsl",
+            "lyd",
+            "mad",
+            "mdl",
+            "mga",
+            "mkd",
+            "mmk",
+            "mnt",
+            "mop",
+            "mro",
+            "mur",
+            "mvr",
+            "mwk",
+            "mxn",
+            "mxv",
+            "myr",
+            "mzn",
+            "nad",
+            "ngn",
+            "nio",
+            "nok",
+            "npr",
+            "nzd",
+            "omr",
+            "pab",
+            "pen",
+            "pgk",
+            "php",
+            "pkr",
+            "pln",
+            "pyg",
+            "qar",
+            "ron",
+            "rsd",
+            "rub",
+            "rwf",
+            "sar",
+            "sbd",
+            "scr",
+            "sdg",
+            "sek",
+            "sgd",
+            "shp",
+            "sll",
+            "sos",
+            "srd",
+            "ssp",
+            "std",
+            "svc",
+            "syp",
+            "szl",
+            "thb",
+            "tjs",
+            "tmt",
+            "tnd",
+            "top",
+            "try",
+            "ttd",
+            "twd",
+            "tzs",
+            "uah",
+            "ugx",
+            "usd",
+            "usn",
+            "uyi",
+            "uyu",
+            "uzs",
+            "vef",
+            "vnd",
+            "vuv",
+            "wst",
+            "xaf",
+            "xag",
+            "xau",
+            "xba",
+            "xbb",
+            "xbc",
+            "xbd",
+            "xcd",
+            "xdr",
+            "xof",
+            "xpd",
+            "xpf",
+            "xpt",
+            "xsu",
+            "xts",
+            "xua",
+            "xxx",
+            "yer",
+            "zar",
+            "zmw",
+            "zwl"
+          ],
           "type": "string"
         },
         "country": {
-          "description": "country",
-          "type": "string"
-        },
-        "invoiceId": {
-          "description": "invoiceId",
+          "description": "The code of the country (ISO 3166-1 alpha-2)",
+          "enum": [
+            "unknown",
+            "aw",
+            "af",
+            "ao",
+            "ai",
+            "al",
+            "ad",
+            "an",
+            "ae",
+            "ar",
+            "am",
+            "as",
+            "aq",
+            "tf",
+            "ag",
+            "au",
+            "at",
+            "az",
+            "bi",
+            "be",
+            "bj",
+            "bf",
+            "bd",
+            "bg",
+            "bh",
+            "bs",
+            "ba",
+            "by",
+            "bz",
+            "bm",
+            "bo",
+            "br",
+            "bb",
+            "bn",
+            "bt",
+            "bv",
+            "bw",
+            "cf",
+            "ca",
+            "cc",
+            "ch",
+            "cl",
+            "cn",
+            "ci",
+            "cm",
+            "cg",
+            "ck",
+            "co",
+            "km",
+            "cv",
+            "cr",
+            "cu",
+            "cx",
+            "ky",
+            "cy",
+            "cz",
+            "de",
+            "dj",
+            "dm",
+            "dk",
+            "do",
+            "dz",
+            "ec",
+            "eg",
+            "er",
+            "eh",
+            "es",
+            "ee",
+            "et",
+            "fi",
+            "fj",
+            "fk",
+            "fr",
+            "fo",
+            "fm",
+            "ga",
+            "gb",
+            "ge",
+            "gh",
+            "gi",
+            "gn",
+            "gp",
+            "gm",
+            "gw",
+            "gq",
+            "gr",
+            "gd",
+            "gl",
+            "gt",
+            "gf",
+            "gu",
+            "gy",
+            "hk",
+            "hm",
+            "hn",
+            "hr",
+            "ht",
+            "hu",
+            "id",
+            "in",
+            "io",
+            "ie",
+            "ir",
+            "iq",
+            "is",
+            "il",
+            "it",
+            "jm",
+            "jo",
+            "jp",
+            "kz",
+            "ke",
+            "kg",
+            "kh",
+            "ki",
+            "kn",
+            "kr",
+            "kw",
+            "la",
+            "lb",
+            "lr",
+            "ly",
+            "lc",
+            "li",
+            "lk",
+            "ls",
+            "lt",
+            "lu",
+            "lv",
+            "mo",
+            "ma",
+            "mc",
+            "md",
+            "mg",
+            "mv",
+            "mx",
+            "mh",
+            "mk",
+            "ml",
+            "mt",
+            "mm",
+            "mn",
+            "mp",
+            "mz",
+            "mr",
+            "ms",
+            "mq",
+            "mu",
+            "mw",
+            "my",
+            "yt",
+            "na",
+            "nc",
+            "ne",
+            "nf",
+            "ng",
+            "ni",
+            "nu",
+            "nl",
+            "no",
+            "np",
+            "nr",
+            "nz",
+            "om",
+            "pk",
+            "pa",
+            "pn",
+            "pe",
+            "ph",
+            "pw",
+            "pg",
+            "pl",
+            "pr",
+            "kp",
+            "pt",
+            "py",
+            "pf",
+            "qa",
+            "re",
+            "ro",
+            "ru",
+            "rw",
+            "sa",
+            "sd",
+            "sn",
+            "sg",
+            "gs",
+            "sh",
+            "sj",
+            "sb",
+            "sl",
+            "sv",
+            "sm",
+            "so",
+            "pm",
+            "st",
+            "sr",
+            "sk",
+            "si",
+            "se",
+            "sz",
+            "sc",
+            "sy",
+            "tc",
+            "td",
+            "tg",
+            "th",
+            "tj",
+            "tk",
+            "tm",
+            "tp",
+            "to",
+            "tt",
+            "tn",
+            "tr",
+            "tv",
+            "tw",
+            "tz",
+            "ug",
+            "ua",
+            "um",
+            "uy",
+            "us",
+            "uz",
+            "va",
+            "vc",
+            "ve",
+            "vg",
+            "vi",
+            "vn",
+            "vu",
+            "wf",
+            "ws",
+            "ye",
+            "za",
+            "zm",
+            "zw"
+          ],
           "type": "string"
         },
         "customerRef": {
-          "description": "customerRef",
+          "description": "The customer reference",
           "type": "string"
         },
-        "date": {
-          "description": "date",
+        "creditRef": {
+          "description": "The order reference linked to the schedule and transaction",
+          "type": "string"
+        },
+        "creditTag": {
+          "description": "The order tag is a label for the schedule",
           "type": "string"
         },
         "amount": {
-          "description": "amount",
+          "format": "int32",
+          "description": "The amount of the payment",
+          "type": "integer"
+        },
+        "expirationDate": {
+          "format": "date-time",
+          "description": "The card's expiration date",
           "type": "string"
         },
-        "orderRowsAmount": {
-          "description": "orderRowsAmount",
+        "cardNumber": {
+          "description": "The card number",
           "type": "string"
+        },
+        "cardScheme": {
+          "description": "The card type",
+          "enum": [
+            "none",
+            "cb",
+            "visa",
+            "masterCard",
+            "cdiscount",
+            "casino",
+            "cofinoga",
+            "amex",
+            "finaref",
+            "aurore",
+            "cdiscount_Cup",
+            "diners",
+            "exito",
+            "exitoFranquicia",
+            "payPal",
+            "banContact",
+            "pse",
+            "paylib"
+          ],
+          "type": "string"
+        }
+      },
+      "example": {
+        "merchantId": 1,
+        "merchantSiteId": "100",
+        "currency": "eur",
+        "country": "fr",
+        "customerRef": "CustomerRef-2506",
+        "creditRef": "CreditRef-40550",
+        "creditTag": "CreditTag-94857",
+        "amount": 73784,
+        "expirationDate": "2020-09-02T00:00:00+02:00",
+        "cardNumber": "5017670000005900",
+        "cardScheme": "cb"
+      }
+    },
+    "CardPaymentCreditHolderResponse": {
+      "description": "Response object for CardPaymentCreditHolder",
+      "type": "object",
+      "properties": {
+        "responseCode": {
+          "description": "The response code of the service",
+          "type": "string"
+        },
+        "merchantAccountRef": {
+          "description": "The MerchantAccountRef used for the credit",
+          "type": "string"
+        },
+        "responseMessage": {
+          "description": "The response code of the service",
+          "type": "string"
+        }
+      }
+    },
+    "Card3DsPaymentRequest": {
+      "description": "The Card3DS Payment Request",
+      "type": "object",
+      "properties": {
+        "returnUrl": {
+          "description": "Url for the return after the payment process",
+          "type": "string"
+        },
+        "context": {
+          "$ref": "#/definitions/CardPaymentContextData",
+          "description": "Gets or Sets ContextData"
+        },
+        "options": {
+          "$ref": "#/definitions/Options",
+          "description": "Gets or Sets Options"
+        },
+        "order": {
+          "$ref": "#/definitions/Order",
+          "description": "Gets or Sets Order"
+        },
+        "card": {
+          "$ref": "#/definitions/CardData",
+          "description": "Gets or Sets CardData"
+        },
+        "storedCard": {
+          "$ref": "#/definitions/StoredCard",
+          "description": "Gets or Sets StoredCardData"
+        },
+        "validationMode": {
+          "$ref": "#/definitions/ValidationModeOverride",
+          "description": "Gets or Sets ValidationModeOverride"
+        },
+        "notificationUrl": {
+          "description": "Url for the notification of the payment",
+          "type": "string"
+        }
+      },
+      "example": {
+        "returnUrl": "http://merchant.com/return",
+        "context": {
+          "merchantId": 1,
+          "merchantSiteId": "100",
+          "currency": "eur",
+          "country": "fr",
+          "paymentOptionRef": "21",
+          "customerRef": "CUSTOMER01",
+          "paymentAttempt": 1
+        },
+        "options": {
+          "ReportDelayInDays": null,
+          "AllowCardStorage": null
+        },
+        "order": {
+          "orderRef": "Test_201909021423",
+          "invoiceId": 12345,
+          "orderTag": null,
+          "orderDate": "2019-09-02T14:23:53.654515+02:00",
+          "amount": 4337
+        },
+        "card": {
+          "cardOptionId": null,
+          "cardScheme": "cb",
+          "expirationDate": "2020-09-02T14:23:53.6545176+02:00",
+          "cardNumber": "5017670000001800",
+          "securityNumber": "123",
+          "cardLabel": "John Doe"
+        },
+        "storedCard": null,
+        "validationMode": null,
+        "notificationUrl": "http://merchant.com/notification"
+      }
+    },
+    "CardPaymentContextData": {
+      "type": "object",
+      "properties": {
+        "merchantId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "merchantSiteId": {
+          "type": "string"
+        },
+        "currency": {
+          "enum": [
+            "unknown",
+            "aed",
+            "afn",
+            "all",
+            "amd",
+            "ang",
+            "aoa",
+            "ars",
+            "aud",
+            "awg",
+            "azn",
+            "bam",
+            "bbd",
+            "bdt",
+            "bgn",
+            "bhd",
+            "bif",
+            "bmd",
+            "bnd",
+            "bob",
+            "bov",
+            "brl",
+            "bsd",
+            "btn",
+            "bwp",
+            "byr",
+            "bzd",
+            "cad",
+            "cdf",
+            "che",
+            "chf",
+            "chw",
+            "clf",
+            "clp",
+            "cny",
+            "cop",
+            "cou",
+            "crc",
+            "cuc",
+            "cup",
+            "cve",
+            "czk",
+            "djf",
+            "dkk",
+            "dop",
+            "dzd",
+            "egp",
+            "ern",
+            "etb",
+            "eur",
+            "fjd",
+            "fkp",
+            "gbp",
+            "gel",
+            "ghs",
+            "gip",
+            "gmd",
+            "gnf",
+            "gtq",
+            "gyd",
+            "hkd",
+            "hnl",
+            "hrk",
+            "htg",
+            "huf",
+            "idr",
+            "ils",
+            "inr",
+            "iqd",
+            "irr",
+            "isk",
+            "jmd",
+            "jod",
+            "jpy",
+            "kes",
+            "kgs",
+            "khr",
+            "kmf",
+            "kpw",
+            "krw",
+            "kwd",
+            "kyd",
+            "kzt",
+            "lak",
+            "lbp",
+            "lkr",
+            "lrd",
+            "lsl",
+            "lyd",
+            "mad",
+            "mdl",
+            "mga",
+            "mkd",
+            "mmk",
+            "mnt",
+            "mop",
+            "mro",
+            "mur",
+            "mvr",
+            "mwk",
+            "mxn",
+            "mxv",
+            "myr",
+            "mzn",
+            "nad",
+            "ngn",
+            "nio",
+            "nok",
+            "npr",
+            "nzd",
+            "omr",
+            "pab",
+            "pen",
+            "pgk",
+            "php",
+            "pkr",
+            "pln",
+            "pyg",
+            "qar",
+            "ron",
+            "rsd",
+            "rub",
+            "rwf",
+            "sar",
+            "sbd",
+            "scr",
+            "sdg",
+            "sek",
+            "sgd",
+            "shp",
+            "sll",
+            "sos",
+            "srd",
+            "ssp",
+            "std",
+            "svc",
+            "syp",
+            "szl",
+            "thb",
+            "tjs",
+            "tmt",
+            "tnd",
+            "top",
+            "try",
+            "ttd",
+            "twd",
+            "tzs",
+            "uah",
+            "ugx",
+            "usd",
+            "usn",
+            "uyi",
+            "uyu",
+            "uzs",
+            "vef",
+            "vnd",
+            "vuv",
+            "wst",
+            "xaf",
+            "xag",
+            "xau",
+            "xba",
+            "xbb",
+            "xbc",
+            "xbd",
+            "xcd",
+            "xdr",
+            "xof",
+            "xpd",
+            "xpf",
+            "xpt",
+            "xsu",
+            "xts",
+            "xua",
+            "xxx",
+            "yer",
+            "zar",
+            "zmw",
+            "zwl"
+          ],
+          "type": "string"
+        },
+        "country": {
+          "enum": [
+            "unknown",
+            "aw",
+            "af",
+            "ao",
+            "ai",
+            "al",
+            "ad",
+            "an",
+            "ae",
+            "ar",
+            "am",
+            "as",
+            "aq",
+            "tf",
+            "ag",
+            "au",
+            "at",
+            "az",
+            "bi",
+            "be",
+            "bj",
+            "bf",
+            "bd",
+            "bg",
+            "bh",
+            "bs",
+            "ba",
+            "by",
+            "bz",
+            "bm",
+            "bo",
+            "br",
+            "bb",
+            "bn",
+            "bt",
+            "bv",
+            "bw",
+            "cf",
+            "ca",
+            "cc",
+            "ch",
+            "cl",
+            "cn",
+            "ci",
+            "cm",
+            "cg",
+            "ck",
+            "co",
+            "km",
+            "cv",
+            "cr",
+            "cu",
+            "cx",
+            "ky",
+            "cy",
+            "cz",
+            "de",
+            "dj",
+            "dm",
+            "dk",
+            "do",
+            "dz",
+            "ec",
+            "eg",
+            "er",
+            "eh",
+            "es",
+            "ee",
+            "et",
+            "fi",
+            "fj",
+            "fk",
+            "fr",
+            "fo",
+            "fm",
+            "ga",
+            "gb",
+            "ge",
+            "gh",
+            "gi",
+            "gn",
+            "gp",
+            "gm",
+            "gw",
+            "gq",
+            "gr",
+            "gd",
+            "gl",
+            "gt",
+            "gf",
+            "gu",
+            "gy",
+            "hk",
+            "hm",
+            "hn",
+            "hr",
+            "ht",
+            "hu",
+            "id",
+            "in",
+            "io",
+            "ie",
+            "ir",
+            "iq",
+            "is",
+            "il",
+            "it",
+            "jm",
+            "jo",
+            "jp",
+            "kz",
+            "ke",
+            "kg",
+            "kh",
+            "ki",
+            "kn",
+            "kr",
+            "kw",
+            "la",
+            "lb",
+            "lr",
+            "ly",
+            "lc",
+            "li",
+            "lk",
+            "ls",
+            "lt",
+            "lu",
+            "lv",
+            "mo",
+            "ma",
+            "mc",
+            "md",
+            "mg",
+            "mv",
+            "mx",
+            "mh",
+            "mk",
+            "ml",
+            "mt",
+            "mm",
+            "mn",
+            "mp",
+            "mz",
+            "mr",
+            "ms",
+            "mq",
+            "mu",
+            "mw",
+            "my",
+            "yt",
+            "na",
+            "nc",
+            "ne",
+            "nf",
+            "ng",
+            "ni",
+            "nu",
+            "nl",
+            "no",
+            "np",
+            "nr",
+            "nz",
+            "om",
+            "pk",
+            "pa",
+            "pn",
+            "pe",
+            "ph",
+            "pw",
+            "pg",
+            "pl",
+            "pr",
+            "kp",
+            "pt",
+            "py",
+            "pf",
+            "qa",
+            "re",
+            "ro",
+            "ru",
+            "rw",
+            "sa",
+            "sd",
+            "sn",
+            "sg",
+            "gs",
+            "sh",
+            "sj",
+            "sb",
+            "sl",
+            "sv",
+            "sm",
+            "so",
+            "pm",
+            "st",
+            "sr",
+            "sk",
+            "si",
+            "se",
+            "sz",
+            "sc",
+            "sy",
+            "tc",
+            "td",
+            "tg",
+            "th",
+            "tj",
+            "tk",
+            "tm",
+            "tp",
+            "to",
+            "tt",
+            "tn",
+            "tr",
+            "tv",
+            "tw",
+            "tz",
+            "ug",
+            "ua",
+            "um",
+            "uy",
+            "us",
+            "uz",
+            "va",
+            "vc",
+            "ve",
+            "vg",
+            "vi",
+            "vn",
+            "vu",
+            "wf",
+            "ws",
+            "ye",
+            "za",
+            "zm",
+            "zw"
+          ],
+          "type": "string"
+        },
+        "paymentOptionRef": {
+          "type": "string"
+        },
+        "customerRef": {
+          "type": "string"
+        },
+        "paymentAttempt": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Options": {
+      "type": "object",
+      "properties": {
+        "ReportDelayInDays": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "AllowCardStorage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "orderRef": {
+          "type": "string"
+        },
+        "invoiceId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "orderTag": {
+          "type": "string"
+        },
+        "orderDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "amount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "CardData": {
+      "type": "object",
+      "properties": {
+        "cardOptionId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cardScheme": {
+          "enum": [
+            "none",
+            "cb",
+            "visa",
+            "masterCard",
+            "cdiscount",
+            "casino",
+            "cofinoga",
+            "amex",
+            "finaref",
+            "aurore",
+            "cdiscount_Cup",
+            "diners",
+            "exito",
+            "exitoFranquicia",
+            "payPal",
+            "banContact",
+            "pse",
+            "paylib"
+          ],
+          "type": "string"
+        },
+        "expirationDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "cardNumber": {
+          "type": "string"
+        },
+        "securityNumber": {
+          "type": "string"
+        },
+        "cardLabel": {
+          "type": "string"
+        }
+      }
+    },
+    "StoredCard": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "ValidationModeOverride": {
+      "type": "object",
+      "properties": {
+        "captureDelay": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "validationMode": {
+          "enum": ["undefined", "auto", "manual"],
+          "type": "string"
+        }
+      }
+    },
+    "CardPaymentResponse": {
+      "description": "The card payment response",
+      "type": "object",
+      "properties": {
+        "merchantAccountRef": {
+          "description": "The merchant account reference of the payment",
+          "type": "string"
+        },
+        "responseCode": {
+          "description": "The response code of the service",
+          "enum": ["unknown", "succeeded", "badRequest", "refusedByBank", "failed", "pending"],
+          "type": "string"
+        },
+        "complementaryResponseCode": {
+          "description": "The complementary code for more details",
+          "enum": [
+            "unknown",
+            "amountLimitExceeded",
+            "limitExceeded",
+            "technicalProblem",
+            "authorized",
+            "bankFraudSuspicion",
+            "cardExpired",
+            "cardIssuerUnavailable",
+            "cardholderNotAuthenticated",
+            "dateOfValidityExpired",
+            "duplicateRequest",
+            "formatError",
+            "fraudSuspicion",
+            "illegalTransaction",
+            "invalidAcceptor",
+            "invalidAccount",
+            "invalidCardIssuer",
+            "invalidTransaction",
+            "lostCard",
+            "referenceNumberCannotBeFound",
+            "referred",
+            "refused",
+            "requestedFunctionNotSupported",
+            "securityBreach",
+            "securityRulesViolated",
+            "serverUnavailableNetworkRoutingAskedAgain",
+            "stolenCard",
+            "systemUnavailable",
+            "temporaryBankServerUnavailability",
+            "temporaryOfficeServerUnavailability",
+            "transactionNotPermitted",
+            "transactionTimedOut",
+            "unknownAcquirerAccountCode",
+            "unknownCard",
+            "updateOfFileImpossible",
+            "transactionArchived",
+            "refusedByScoring",
+            "refusedByScoring2",
+            "notAvailable",
+            "deprecatedCardToken",
+            "exceededAuthorizedAmount",
+            "reportDelayLimitExceeded"
+          ],
+          "type": "string"
+        },
+        "schedules": {
+          "description": "All schedules data",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScheduleLight"
+          }
+        },
+        "storedCard": {
+          "$ref": "#/definitions/StoredCard",
+          "description": "Gets or Sets StoredCard"
+        },
+        "responseMessage": {
+          "description": "The response code of the service",
+          "type": "string"
+        }
+      }
+    },
+    "ScheduleLight": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "date": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "rank": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Card3DsPaymentPutRequest": {
+      "description": "The CardPayment Request for the PUT",
+      "type": "object",
+      "properties": {
+        "merchantId": {
+          "format": "int32",
+          "description": "The merchant identifier",
+          "type": "integer"
+        },
+        "merchantSiteId": {
+          "description": "The merchant site identifier",
+          "type": "string"
+        },
+        "paymentRequestId": {
+          "description": "The payment session identifier (guid), use it for 3DS payment",
+          "type": "string"
+        },
+        "orderRef": {
+          "description": "The order reference linked to the schedule and transaction",
+          "type": "string"
+        },
+        "orderTag": {
+          "description": "The order tag is a label for the schedule",
+          "type": "string"
+        }
+      },
+      "example": {
+        "merchantId": 1,
+        "merchantSiteId": "100",
+        "paymentRequestId": "ed1337c28a614e02bd060c74803be9b8",
+        "orderRef": "ORDER12345",
+        "orderTag": "LABEL1"
+      }
+    },
+    "CardPaymentRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/CardPaymentContextData",
+          "description": "Gets or Sets ContextData"
+        },
+        "options": {
+          "$ref": "#/definitions/Options",
+          "description": "Gets or Sets Options"
+        },
+        "order": {
+          "$ref": "#/definitions/Order",
+          "description": "Gets or Sets Order"
+        },
+        "card": {
+          "$ref": "#/definitions/CardData",
+          "description": "Gets or Sets CardData"
+        },
+        "storedCard": {
+          "$ref": "#/definitions/StoredCard",
+          "description": "Gets or Sets StoredCardData"
+        },
+        "validationMode": {
+          "$ref": "#/definitions/ValidationModeOverride",
+          "description": "Gets or Sets ValidationModeOverride"
+        },
+        "notificationUrl": {
+          "description": "Url for the notification of the payment",
+          "type": "string"
+        }
+      },
+      "example": {
+        "context": {
+          "merchantId": 1,
+          "merchantSiteId": "100",
+          "currency": "eur",
+          "country": "fr",
+          "paymentOptionRef": "1",
+          "customerRef": "CUSTOMER01",
+          "paymentAttempt": 1
+        },
+        "options": null,
+        "order": {
+          "orderRef": "Test_201909021423",
+          "invoiceId": 12345,
+          "orderTag": null,
+          "orderDate": "2019-09-02T14:23:53.6666698+02:00",
+          "amount": 1337
+        },
+        "card": {
+          "cardOptionId": null,
+          "cardScheme": "cb",
+          "expirationDate": "2020-09-02T14:23:53.666671+02:00",
+          "cardNumber": "5017670000001800",
+          "securityNumber": "123",
+          "cardLabel": "John Doe"
+        },
+        "storedCard": null,
+        "validationMode": null,
+        "notificationUrl": "http://merchant.com/notification"
+      }
+    },
+    "DuplicatePaymentRequest": {
+      "description": "The AuthorByCopy Payment Request",
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/CardPaymentContextData",
+          "description": "Gets or Sets ContextData"
+        },
+        "options": {
+          "$ref": "#/definitions/Options",
+          "description": "Gets or Sets Options"
+        },
+        "order": {
+          "$ref": "#/definitions/Order",
+          "description": "Gets or Sets Order"
+        },
+        "copyReference": {
+          "$ref": "#/definitions/CopyReference",
+          "description": "Gets or Sets CopyReference"
+        },
+        "validationMode": {
+          "$ref": "#/definitions/ValidationModeOverride",
+          "description": "Gets or Sets ValidationModeOverride"
+        },
+        "notificationUrl": {
+          "description": "Url for the notification of the payment",
+          "type": "string"
+        }
+      },
+      "example": {
+        "context": {
+          "merchantId": 1,
+          "merchantSiteId": "100",
+          "currency": "eur",
+          "country": "fr",
+          "paymentOptionRef": "1",
+          "customerRef": "CUSTOMER01",
+          "paymentAttempt": 1
+        },
+        "options": null,
+        "order": {
+          "orderRef": "Test_201909021423",
+          "invoiceId": 12345,
+          "orderTag": null,
+          "orderDate": "2019-09-02T14:23:53.6742557+02:00",
+          "amount": 1337
+        },
+        "copyReference": {
+          "fromOrderRef": "ORDER54321",
+          "fromOrderTag": null
+        },
+        "validationMode": null,
+        "notificationUrl": "http://merchant.com/notification"
+      }
+    },
+    "CopyReference": {
+      "type": "object",
+      "properties": {
+        "fromOrderRef": {
+          "type": "string"
+        },
+        "fromOrderTag": {
+          "type": "string"
+        }
+      }
+    },
+    "DuplicatePaymentBatchRequest": {
+      "description": "The AuthorByCopy batch Payment Request",
+      "type": "object",
+      "properties": {
+        "duplicatePaymentRequestList": {
+          "description": "Gets or Sets ContextData",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DuplicatePaymentRequest"
+          }
+        }
+      },
+      "example": {
+        "duplicatePaymentRequestList": [
+          {
+            "context": {
+              "merchantId": 1,
+              "merchantSiteId": "100",
+              "currency": "eur",
+              "country": "fr",
+              "paymentOptionRef": "1",
+              "customerRef": "CUSTOMER01",
+              "paymentAttempt": 1
+            },
+            "options": null,
+            "order": {
+              "orderRef": "Test_201909021423",
+              "invoiceId": 12345,
+              "orderTag": null,
+              "orderDate": "2019-09-02T14:23:53.6783526+02:00",
+              "amount": 1337
+            },
+            "copyReference": {
+              "fromOrderRef": "ORDER54321",
+              "fromOrderTag": null
+            },
+            "validationMode": null,
+            "notificationUrl": "http://merchant.com/notification"
+          },
+          {
+            "context": {
+              "merchantId": 1,
+              "merchantSiteId": "100",
+              "currency": "eur",
+              "country": "fr",
+              "paymentOptionRef": "1",
+              "customerRef": "CUSTOMER01",
+              "paymentAttempt": 1
+            },
+            "options": null,
+            "order": {
+              "orderRef": "Test_201909021423_2",
+              "invoiceId": 12345,
+              "orderTag": null,
+              "orderDate": "2019-09-02T14:23:53.6783554+02:00",
+              "amount": 1337
+            },
+            "copyReference": {
+              "fromOrderRef": "ORDER54321",
+              "fromOrderTag": null
+            },
+            "validationMode": null,
+            "notificationUrl": "http://merchant.com/notification"
+          }
+        ]
+      }
+    },
+    "PaymentOptionsResponse": {
+      "description": "All payment option list data for the response",
+      "type": "object",
+      "properties": {
+        "responseCode": {
+          "description": "The response code of the service",
+          "enum": ["unknown", "success", "refused", "internalFailure"],
+          "type": "string"
+        },
+        "paymentOptions": {
+          "description": "All payment options data",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentOption"
+          }
+        },
+        "responseMessage": {
+          "description": "The response code of the service",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentOption": {
+      "type": "object",
+      "properties": {
+        "paymentOptionRef": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "minAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "maxAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "storedCardsEnabled": {
+          "type": "boolean"
+        },
+        "paymentScheduleRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentScheduleRule"
+          }
+        },
+        "paymentFees": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentFee"
+          }
+        },
+        "paymentCards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentCard"
+          }
+        },
+        "loanOffers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoanOffer"
+          }
+        },
+        "acquiringBanks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AcquiringBank"
+          }
+        }
+      }
+    },
+    "PaymentScheduleRule": {
+      "type": "object",
+      "properties": {
+        "rank": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "name": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "dateDelay": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "isBondRank": {
+          "type": "boolean"
+        },
+        "thresholdDay": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "firstDueDay": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "firstDueMonthDelay": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "secondDueDay": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "secondDueMonthDelay": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "hasFees": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PaymentFee": {
+      "type": "object",
+      "properties": {
+        "minAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "maxAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "rate": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "amount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "startDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "endDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "reportDelayMin": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "reportDelayMax": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "PaymentCard": {
+      "type": "object",
+      "properties": {
+        "paymentCardRef": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "paymentCardOptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentCardOption"
+          }
+        }
+      }
+    },
+    "LoanOffer": {
+      "type": "object",
+      "properties": {
+        "loanRef": {
+          "type": "string"
+        },
+        "loanTerms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoanTerm"
+          }
+        }
+      }
+    },
+    "AcquiringBank": {
+      "type": "object",
+      "properties": {
+        "acquiringBankRef": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PaymentCardOption": {
+      "type": "object",
+      "properties": {
+        "paymentCardOptionRef": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "minAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "maxAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "totalBillingCycles": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "effectiveRate": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cardOptionGroupName": {
+          "type": "string"
+        },
+        "cardOptionGroupId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cardOptionGroupPosition": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "postponementDelayUnit": {
+          "enum": ["unknown", "day", "week", "month", "year"],
+          "type": "string"
+        },
+        "postponementDelay": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "LoanTerm": {
+      "type": "object",
+      "properties": {
+        "loanTermRef": {
+          "type": "string"
+        },
+        "minAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "maxAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "effectiveRate": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "monthlyPayment": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "despositPercentage": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "totalBillingCycles": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "defaultTerm": {
+          "type": "boolean"
+        },
+        "startDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "endDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentOptionsRequest": {
+      "type": "object",
+      "properties": {
+        "merchantId": {
+          "format": "int32",
+          "description": "The merchant identifier",
+          "type": "integer"
+        },
+        "merchantSiteId": {
+          "description": "The merchant site identifier.",
+          "type": "string"
+        },
+        "context": {
+          "$ref": "#/definitions/PaymentOptionsContextData",
+          "description": "The context data."
+        }
+      },
+      "example": {
+        "merchantId": 1,
+        "merchantSiteId": "100",
+        "context": {
+          "currency": "eur",
+          "country": "fr",
+          "amount": 150
+        }
+      }
+    },
+    "PaymentOptionsContextData": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "enum": [
+            "unknown",
+            "aed",
+            "afn",
+            "all",
+            "amd",
+            "ang",
+            "aoa",
+            "ars",
+            "aud",
+            "awg",
+            "azn",
+            "bam",
+            "bbd",
+            "bdt",
+            "bgn",
+            "bhd",
+            "bif",
+            "bmd",
+            "bnd",
+            "bob",
+            "bov",
+            "brl",
+            "bsd",
+            "btn",
+            "bwp",
+            "byr",
+            "bzd",
+            "cad",
+            "cdf",
+            "che",
+            "chf",
+            "chw",
+            "clf",
+            "clp",
+            "cny",
+            "cop",
+            "cou",
+            "crc",
+            "cuc",
+            "cup",
+            "cve",
+            "czk",
+            "djf",
+            "dkk",
+            "dop",
+            "dzd",
+            "egp",
+            "ern",
+            "etb",
+            "eur",
+            "fjd",
+            "fkp",
+            "gbp",
+            "gel",
+            "ghs",
+            "gip",
+            "gmd",
+            "gnf",
+            "gtq",
+            "gyd",
+            "hkd",
+            "hnl",
+            "hrk",
+            "htg",
+            "huf",
+            "idr",
+            "ils",
+            "inr",
+            "iqd",
+            "irr",
+            "isk",
+            "jmd",
+            "jod",
+            "jpy",
+            "kes",
+            "kgs",
+            "khr",
+            "kmf",
+            "kpw",
+            "krw",
+            "kwd",
+            "kyd",
+            "kzt",
+            "lak",
+            "lbp",
+            "lkr",
+            "lrd",
+            "lsl",
+            "lyd",
+            "mad",
+            "mdl",
+            "mga",
+            "mkd",
+            "mmk",
+            "mnt",
+            "mop",
+            "mro",
+            "mur",
+            "mvr",
+            "mwk",
+            "mxn",
+            "mxv",
+            "myr",
+            "mzn",
+            "nad",
+            "ngn",
+            "nio",
+            "nok",
+            "npr",
+            "nzd",
+            "omr",
+            "pab",
+            "pen",
+            "pgk",
+            "php",
+            "pkr",
+            "pln",
+            "pyg",
+            "qar",
+            "ron",
+            "rsd",
+            "rub",
+            "rwf",
+            "sar",
+            "sbd",
+            "scr",
+            "sdg",
+            "sek",
+            "sgd",
+            "shp",
+            "sll",
+            "sos",
+            "srd",
+            "ssp",
+            "std",
+            "svc",
+            "syp",
+            "szl",
+            "thb",
+            "tjs",
+            "tmt",
+            "tnd",
+            "top",
+            "try",
+            "ttd",
+            "twd",
+            "tzs",
+            "uah",
+            "ugx",
+            "usd",
+            "usn",
+            "uyi",
+            "uyu",
+            "uzs",
+            "vef",
+            "vnd",
+            "vuv",
+            "wst",
+            "xaf",
+            "xag",
+            "xau",
+            "xba",
+            "xbb",
+            "xbc",
+            "xbd",
+            "xcd",
+            "xdr",
+            "xof",
+            "xpd",
+            "xpf",
+            "xpt",
+            "xsu",
+            "xts",
+            "xua",
+            "xxx",
+            "yer",
+            "zar",
+            "zmw",
+            "zwl"
+          ],
+          "type": "string"
+        },
+        "country": {
+          "enum": [
+            "unknown",
+            "aw",
+            "af",
+            "ao",
+            "ai",
+            "al",
+            "ad",
+            "an",
+            "ae",
+            "ar",
+            "am",
+            "as",
+            "aq",
+            "tf",
+            "ag",
+            "au",
+            "at",
+            "az",
+            "bi",
+            "be",
+            "bj",
+            "bf",
+            "bd",
+            "bg",
+            "bh",
+            "bs",
+            "ba",
+            "by",
+            "bz",
+            "bm",
+            "bo",
+            "br",
+            "bb",
+            "bn",
+            "bt",
+            "bv",
+            "bw",
+            "cf",
+            "ca",
+            "cc",
+            "ch",
+            "cl",
+            "cn",
+            "ci",
+            "cm",
+            "cg",
+            "ck",
+            "co",
+            "km",
+            "cv",
+            "cr",
+            "cu",
+            "cx",
+            "ky",
+            "cy",
+            "cz",
+            "de",
+            "dj",
+            "dm",
+            "dk",
+            "do",
+            "dz",
+            "ec",
+            "eg",
+            "er",
+            "eh",
+            "es",
+            "ee",
+            "et",
+            "fi",
+            "fj",
+            "fk",
+            "fr",
+            "fo",
+            "fm",
+            "ga",
+            "gb",
+            "ge",
+            "gh",
+            "gi",
+            "gn",
+            "gp",
+            "gm",
+            "gw",
+            "gq",
+            "gr",
+            "gd",
+            "gl",
+            "gt",
+            "gf",
+            "gu",
+            "gy",
+            "hk",
+            "hm",
+            "hn",
+            "hr",
+            "ht",
+            "hu",
+            "id",
+            "in",
+            "io",
+            "ie",
+            "ir",
+            "iq",
+            "is",
+            "il",
+            "it",
+            "jm",
+            "jo",
+            "jp",
+            "kz",
+            "ke",
+            "kg",
+            "kh",
+            "ki",
+            "kn",
+            "kr",
+            "kw",
+            "la",
+            "lb",
+            "lr",
+            "ly",
+            "lc",
+            "li",
+            "lk",
+            "ls",
+            "lt",
+            "lu",
+            "lv",
+            "mo",
+            "ma",
+            "mc",
+            "md",
+            "mg",
+            "mv",
+            "mx",
+            "mh",
+            "mk",
+            "ml",
+            "mt",
+            "mm",
+            "mn",
+            "mp",
+            "mz",
+            "mr",
+            "ms",
+            "mq",
+            "mu",
+            "mw",
+            "my",
+            "yt",
+            "na",
+            "nc",
+            "ne",
+            "nf",
+            "ng",
+            "ni",
+            "nu",
+            "nl",
+            "no",
+            "np",
+            "nr",
+            "nz",
+            "om",
+            "pk",
+            "pa",
+            "pn",
+            "pe",
+            "ph",
+            "pw",
+            "pg",
+            "pl",
+            "pr",
+            "kp",
+            "pt",
+            "py",
+            "pf",
+            "qa",
+            "re",
+            "ro",
+            "ru",
+            "rw",
+            "sa",
+            "sd",
+            "sn",
+            "sg",
+            "gs",
+            "sh",
+            "sj",
+            "sb",
+            "sl",
+            "sv",
+            "sm",
+            "so",
+            "pm",
+            "st",
+            "sr",
+            "sk",
+            "si",
+            "se",
+            "sz",
+            "sc",
+            "sy",
+            "tc",
+            "td",
+            "tg",
+            "th",
+            "tj",
+            "tk",
+            "tm",
+            "tp",
+            "to",
+            "tt",
+            "tn",
+            "tr",
+            "tv",
+            "tw",
+            "tz",
+            "ug",
+            "ua",
+            "um",
+            "uy",
+            "us",
+            "uz",
+            "va",
+            "vc",
+            "ve",
+            "vg",
+            "vi",
+            "vn",
+            "vu",
+            "wf",
+            "ws",
+            "ye",
+            "za",
+            "zm",
+            "zw"
+          ],
+          "type": "string"
+        },
+        "amount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "PaymentOperationsResponse": {
+      "description": "All payment operation data for the response",
+      "type": "object",
+      "properties": {
+        "orderRef": {
+          "description": "The orderRef",
+          "type": "string"
+        },
+        "orderTag": {
+          "description": "The orderTag",
+          "type": "string"
+        },
+        "responseCode": {
+          "description": "The response code of the service",
+          "enum": ["undetermined", "success", "refused", "refusedByBank", "internalFailure", "pending", "unavailable"],
+          "type": "string"
+        },
+        "schedules": {
+          "description": "All schedules data",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Schedule"
+          }
+        },
+        "actionType": {
+          "description": "The action type",
+          "type": "string"
+        },
+        "responseMessage": {
+          "description": "The response code of the service",
+          "type": "string"
+        }
+      }
+    },
+    "Schedule": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "date": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "rank": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "currency": {
+          "enum": [
+            "unknown",
+            "aed",
+            "afn",
+            "all",
+            "amd",
+            "ang",
+            "aoa",
+            "ars",
+            "aud",
+            "awg",
+            "azn",
+            "bam",
+            "bbd",
+            "bdt",
+            "bgn",
+            "bhd",
+            "bif",
+            "bmd",
+            "bnd",
+            "bob",
+            "bov",
+            "brl",
+            "bsd",
+            "btn",
+            "bwp",
+            "byr",
+            "bzd",
+            "cad",
+            "cdf",
+            "che",
+            "chf",
+            "chw",
+            "clf",
+            "clp",
+            "cny",
+            "cop",
+            "cou",
+            "crc",
+            "cuc",
+            "cup",
+            "cve",
+            "czk",
+            "djf",
+            "dkk",
+            "dop",
+            "dzd",
+            "egp",
+            "ern",
+            "etb",
+            "eur",
+            "fjd",
+            "fkp",
+            "gbp",
+            "gel",
+            "ghs",
+            "gip",
+            "gmd",
+            "gnf",
+            "gtq",
+            "gyd",
+            "hkd",
+            "hnl",
+            "hrk",
+            "htg",
+            "huf",
+            "idr",
+            "ils",
+            "inr",
+            "iqd",
+            "irr",
+            "isk",
+            "jmd",
+            "jod",
+            "jpy",
+            "kes",
+            "kgs",
+            "khr",
+            "kmf",
+            "kpw",
+            "krw",
+            "kwd",
+            "kyd",
+            "kzt",
+            "lak",
+            "lbp",
+            "lkr",
+            "lrd",
+            "lsl",
+            "lyd",
+            "mad",
+            "mdl",
+            "mga",
+            "mkd",
+            "mmk",
+            "mnt",
+            "mop",
+            "mro",
+            "mur",
+            "mvr",
+            "mwk",
+            "mxn",
+            "mxv",
+            "myr",
+            "mzn",
+            "nad",
+            "ngn",
+            "nio",
+            "nok",
+            "npr",
+            "nzd",
+            "omr",
+            "pab",
+            "pen",
+            "pgk",
+            "php",
+            "pkr",
+            "pln",
+            "pyg",
+            "qar",
+            "ron",
+            "rsd",
+            "rub",
+            "rwf",
+            "sar",
+            "sbd",
+            "scr",
+            "sdg",
+            "sek",
+            "sgd",
+            "shp",
+            "sll",
+            "sos",
+            "srd",
+            "ssp",
+            "std",
+            "svc",
+            "syp",
+            "szl",
+            "thb",
+            "tjs",
+            "tmt",
+            "tnd",
+            "top",
+            "try",
+            "ttd",
+            "twd",
+            "tzs",
+            "uah",
+            "ugx",
+            "usd",
+            "usn",
+            "uyi",
+            "uyu",
+            "uzs",
+            "vef",
+            "vnd",
+            "vuv",
+            "wst",
+            "xaf",
+            "xag",
+            "xau",
+            "xba",
+            "xbb",
+            "xbc",
+            "xbd",
+            "xcd",
+            "xdr",
+            "xof",
+            "xpd",
+            "xpf",
+            "xpt",
+            "xsu",
+            "xts",
+            "xua",
+            "xxx",
+            "yer",
+            "zar",
+            "zmw",
+            "zwl"
+          ],
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "init",
+            "inPayment",
+            "payed",
+            "confirmed",
+            "refused",
+            "cancelled",
+            "pending",
+            "undetermined",
+            "discarded",
+            "cashing",
+            "cashed"
+          ],
+          "type": "string"
+        },
+        "capturedAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "remainingAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "cancelledAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "refundedAmount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "PaymentOperationsRequest": {
+      "description": "All Payment Operation data for the request",
+      "type": "object",
+      "properties": {
+        "merchantId": {
+          "format": "int32",
+          "description": "The merchant identifier",
+          "type": "integer"
+        },
+        "merchantSiteId": {
+          "description": "The merchant site identifier.",
+          "type": "string"
+        },
+        "attempt": {
+          "format": "int32",
+          "description": "The number of attempts (usefull for CAPTURE).",
+          "type": "integer"
+        },
+        "rank": {
+          "format": "int32",
+          "description": "The rank concerned by the operation",
+          "type": "integer"
+        },
+        "amount": {
+          "format": "int64",
+          "description": "The amount",
+          "type": "integer"
+        }
+      },
+      "example": {
+        "merchantId": 1,
+        "merchantSiteId": "100",
+        "attempt": 1,
+        "rank": 1,
+        "amount": 0
+      }
+    },
+    "PaymentSessionRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "merchantId": {
+          "format": "int32",
+          "description": "MerchantId",
+          "type": "integer"
+        },
+        "merchantSiteId": {
+          "description": "MerchantSiteId",
+          "type": "string"
+        },
+        "customer": {
+          "$ref": "#/definitions/Customer",
+          "description": "Customer"
+        },
+        "orderData": {
+          "$ref": "#/definitions/OrderData",
+          "description": "OrderSummary"
+        },
+        "storedCardData": {
+          "description": "StoredCardData",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StoredCard"
+          }
+        },
+        "allowCardStorage": {
+          "description": "Gets or sets a value indicating whether [allow card storage].",
+          "type": "boolean"
+        },
+        "forcedCardOptionRef": {
+          "description": "Gets or sets a value indicating whether [forced card option reference].",
+          "type": "boolean"
+        },
+        "forcedCardStorage": {
+          "description": "Gets or sets a value indicating whether [forced card storage].",
+          "type": "boolean"
+        },
+        "forcedImmediateStoredCard": {
+          "description": "Gets or sets a value indicating whether [forced immediate stored card].",
+          "type": "boolean"
+        },
+        "configuration": {
+          "$ref": "#/definitions/Configuration",
+          "description": "Gets or sets the configuration."
+        }
+      },
+      "example": {
+        "merchantId": 1,
+        "merchantSiteId": "100",
+        "customer": {
+          "billingAddress": {
+            "city": "Bordeaux",
+            "line1": "Rue du test",
+            "line2": "Residence Test",
+            "name": "Nom Prenom",
+            "placeCalled": "Lieu dit",
+            "zipCode": "33300"
+          },
+          "birthDate": "1999-09-02T14:23:53.8120571+02:00",
+          "civility": "mister",
+          "country": "fr",
+          "customerIp": "127.0.0.1",
+          "customerRef": "000000001LKF",
+          "deliveryAddress": {
+            "city": "Bordeaux",
+            "line1": "Rue du test",
+            "line2": "Residence Test",
+            "name": "Nom Prenom",
+            "placeCalled": "Lieu dit",
+            "zipCode": "33300"
+          },
+          "email": "nom.prenom@gmail.com",
+          "firstName": "Prenom",
+          "lastName": "Nom",
+          "mobilePhone": "0607080910",
+          "phone": "0507080910"
+        },
+        "orderData": {
+          "orderDiscountAmount": 200,
+          "orderFeesAmount": 100,
+          "orderRowsAmount": 1000,
+          "orderShippingAmount": 300,
+          "taxAmount": 0,
+          "freeText": "text",
+          "orders": [],
+          "orderSummaryRef": "20190902142353REF",
+          "shippingAddress": {
+            "city": "Bordeaux",
+            "line1": "Rue du test",
+            "line2": "Residence Test",
+            "name": "Nom Prenom",
+            "placeCalled": "Lieu dit",
+            "zipCode": "33300"
+          },
+          "orderRef": "20190902142353REF",
+          "invoiceId": 20190902142353,
+          "orderTag": "",
+          "orderDate": "2019-09-02T14:23:53.8120638+02:00",
+          "amount": 1000
+        },
+        "storedCardData": [
+          {
+            "id": "117af442acca4f788e0c279f845b7b64",
+            "label": "StoredCard1"
+          }
+        ],
+        "allowCardStorage": true,
+        "forcedCardOptionRef": false,
+        "forcedCardStorage": false,
+        "forcedImmediateStoredCard": false,
+        "configuration": {
+          "culture": "FR",
+          "formType": "iframe",
+          "merchantBackUrl": "https://paymenttest.dev-cdiscount.com/TestPages/MerchantBack.aspx",
+          "merchantHomeUrl": "https://paymenttest.dev-cdiscount.com/TestPages/MerchantHome.aspx",
+          "merchantNotifyUrl": "https://paymenttest.dev-cdiscount.com/TestPages/MerchantNotify.aspx",
+          "merchantReturnUrl": "https://paymenttest.dev-cdiscount.com/TestPages/MerchantReturn.aspx",
+          "paymentOptionRef": "1",
+          "reportDelayInDays": 0,
+          "userAgent": "Firefox"
+        }
+      }
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "billingAddress": {
+          "$ref": "#/definitions/ShippingAddress"
+        },
+        "birthDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "civility": {
+          "enum": ["unknown", "mister", "misses", "miss"],
+          "type": "string"
+        },
+        "country": {
+          "enum": [
+            "unknown",
+            "aw",
+            "af",
+            "ao",
+            "ai",
+            "al",
+            "ad",
+            "an",
+            "ae",
+            "ar",
+            "am",
+            "as",
+            "aq",
+            "tf",
+            "ag",
+            "au",
+            "at",
+            "az",
+            "bi",
+            "be",
+            "bj",
+            "bf",
+            "bd",
+            "bg",
+            "bh",
+            "bs",
+            "ba",
+            "by",
+            "bz",
+            "bm",
+            "bo",
+            "br",
+            "bb",
+            "bn",
+            "bt",
+            "bv",
+            "bw",
+            "cf",
+            "ca",
+            "cc",
+            "ch",
+            "cl",
+            "cn",
+            "ci",
+            "cm",
+            "cg",
+            "ck",
+            "co",
+            "km",
+            "cv",
+            "cr",
+            "cu",
+            "cx",
+            "ky",
+            "cy",
+            "cz",
+            "de",
+            "dj",
+            "dm",
+            "dk",
+            "do",
+            "dz",
+            "ec",
+            "eg",
+            "er",
+            "eh",
+            "es",
+            "ee",
+            "et",
+            "fi",
+            "fj",
+            "fk",
+            "fr",
+            "fo",
+            "fm",
+            "ga",
+            "gb",
+            "ge",
+            "gh",
+            "gi",
+            "gn",
+            "gp",
+            "gm",
+            "gw",
+            "gq",
+            "gr",
+            "gd",
+            "gl",
+            "gt",
+            "gf",
+            "gu",
+            "gy",
+            "hk",
+            "hm",
+            "hn",
+            "hr",
+            "ht",
+            "hu",
+            "id",
+            "in",
+            "io",
+            "ie",
+            "ir",
+            "iq",
+            "is",
+            "il",
+            "it",
+            "jm",
+            "jo",
+            "jp",
+            "kz",
+            "ke",
+            "kg",
+            "kh",
+            "ki",
+            "kn",
+            "kr",
+            "kw",
+            "la",
+            "lb",
+            "lr",
+            "ly",
+            "lc",
+            "li",
+            "lk",
+            "ls",
+            "lt",
+            "lu",
+            "lv",
+            "mo",
+            "ma",
+            "mc",
+            "md",
+            "mg",
+            "mv",
+            "mx",
+            "mh",
+            "mk",
+            "ml",
+            "mt",
+            "mm",
+            "mn",
+            "mp",
+            "mz",
+            "mr",
+            "ms",
+            "mq",
+            "mu",
+            "mw",
+            "my",
+            "yt",
+            "na",
+            "nc",
+            "ne",
+            "nf",
+            "ng",
+            "ni",
+            "nu",
+            "nl",
+            "no",
+            "np",
+            "nr",
+            "nz",
+            "om",
+            "pk",
+            "pa",
+            "pn",
+            "pe",
+            "ph",
+            "pw",
+            "pg",
+            "pl",
+            "pr",
+            "kp",
+            "pt",
+            "py",
+            "pf",
+            "qa",
+            "re",
+            "ro",
+            "ru",
+            "rw",
+            "sa",
+            "sd",
+            "sn",
+            "sg",
+            "gs",
+            "sh",
+            "sj",
+            "sb",
+            "sl",
+            "sv",
+            "sm",
+            "so",
+            "pm",
+            "st",
+            "sr",
+            "sk",
+            "si",
+            "se",
+            "sz",
+            "sc",
+            "sy",
+            "tc",
+            "td",
+            "tg",
+            "th",
+            "tj",
+            "tk",
+            "tm",
+            "tp",
+            "to",
+            "tt",
+            "tn",
+            "tr",
+            "tv",
+            "tw",
+            "tz",
+            "ug",
+            "ua",
+            "um",
+            "uy",
+            "us",
+            "uz",
+            "va",
+            "vc",
+            "ve",
+            "vg",
+            "vi",
+            "vn",
+            "vu",
+            "wf",
+            "ws",
+            "ye",
+            "za",
+            "zm",
+            "zw"
+          ],
+          "type": "string"
+        },
+        "customerIp": {
+          "type": "string"
+        },
+        "customerRef": {
+          "type": "string"
+        },
+        "deliveryAddress": {
+          "$ref": "#/definitions/ShippingAddress"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "mobilePhone": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "OrderData": {
+      "type": "object",
+      "properties": {
+        "orderDiscountAmount": {
+          "format": "int64",
+          "type": "integer"
         },
         "orderFeesAmount": {
-          "description": "orderFeesAmount",
+          "format": "int64",
+          "type": "integer"
+        },
+        "orderRowsAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "orderShippingAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "taxAmount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "freeText": {
           "type": "string"
         },
-        "orderDiscountAmount": {
-          "description": "orderDiscountAmount",
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubOrder"
+          }
+        },
+        "orderSummaryRef": {
           "type": "string"
         },
-        "orderShippingCost": {
-          "description": "orderShippingCost",
+        "shippingAddress": {
+          "$ref": "#/definitions/ShippingAddress"
+        },
+        "orderRef": {
           "type": "string"
         },
-        "customerCivility": {
-          "description": "customerCivility",
+        "invoiceId": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "orderTag": {
           "type": "string"
         },
-        "customerLastName": {
-          "description": "customerLastName",
+        "orderDate": {
+          "format": "date-time",
           "type": "string"
         },
-        "customerFirstName": {
-          "description": "customerFirstName",
+        "amount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "Configuration": {
+      "type": "object",
+      "properties": {
+        "culture": {
           "type": "string"
         },
-        "customerEmail": {
-          "description": "customerEmail",
-          "type": "string"
-        },
-        "customerBillingAddress": {
-          "description": "customerBillingAddress",
-          "type": "string"
-        },
-        "customerBillingCity": {
-          "description": "customerBillingCity",
-          "type": "string"
-        },
-        "customerBillingZipCode": {
-          "description": "customerBillingZipCode",
-          "type": "string"
-        },
-        "customerBillingBPlieudit": {
-          "description": "customerBillingBPlieudit",
-          "type": "string"
-        },
-        "customerAdress": {
-          "description": "customerAdress",
-          "type": "string"
-        },
-        "customerCpltAdress": {
-          "description": "customerCpltAdress",
-          "type": "string"
-        },
-        "customerBPLieuDit": {
-          "description": "customerBPLieuDit",
-          "type": "string"
-        },
-        "customerZipCode": {
-          "description": "customerZipCode",
-          "type": "string"
-        },
-        "customerTown": {
-          "description": "customerTown",
-          "type": "string"
-        },
-        "customerCountry": {
-          "description": "customerCountry",
-          "type": "string"
-        },
-        "customerPhoneNumber": {
-          "description": "customerPhoneNumber",
-          "type": "string"
-        },
-        "customerMobileNumber": {
-          "description": "customerMobileNumber",
-          "type": "string"
-        },
-        "BirthDate": {
-          "description": "BirthDate",
-          "type": "string"
-        },
-        "customerFianetNote": {
-          "description": "customerFianetNote",
-          "type": "string"
-        },
-        "deliverySocietyName": {
-          "description": "deliverySocietyName",
-          "type": "string"
-        },
-        "merchantHomeUrl": {
-          "description": "merchantHomeUrl",
+        "formType": {
+          "enum": ["default", "iframe"],
           "type": "string"
         },
         "merchantBackUrl": {
-          "description": "merchantBackUrl",
           "type": "string"
         },
-        "merchantReturnUrl": {
-          "description": "merchantReturnUrl",
+        "merchantHomeUrl": {
           "type": "string"
         },
         "merchantNotifyUrl": {
-          "description": "merchantNotifyUrl",
           "type": "string"
         },
-        "merchantCheckDiscountUrl": {
-          "description": "merchantCheckDiscountUrl",
+        "merchantReturnUrl": {
           "type": "string"
         },
-        "shipToName": {
-          "description": "shipToName",
-          "type": "string"
-        },
-        "shipToStreet1": {
-          "description": "shipToStreet1",
-          "type": "string"
-        },
-        "shipToStreet2": {
-          "description": "shipToStreet2",
-          "type": "string"
-        },
-        "shipToZip": {
-          "description": "shipToZip",
-          "type": "string"
-        },
-        "shipToCity": {
-          "description": "shipToCity",
-          "type": "string"
-        },
-        "welcomeOffer": {
-          "description": "welcomeOffer",
-          "type": "string"
-        },
-        "bondAmount": {
-          "description": "bondAmount",
-          "type": "string"
-        },
-        "orderAmountWithWelcomeOffer": {
-          "description": "orderAmountWithWelcomeOffer",
-          "type": "string"
-        },
-        "inStoreParcelName": {
-          "description": "inStoreParcelName",
-          "type": "string"
-        },
-        "inStoreParcelAddress": {
-          "description": "inStoreParcelAddress",
-          "type": "string"
-        },
-        "inStoreParcelPostalCode": {
-          "description": "inStoreParcelPostalCode",
-          "type": "string"
-        },
-        "inStoreParcelCity": {
-          "description": "inStoreParcelCity",
-          "type": "string"
-        },
-        "inStoreParcelPhone": {
-          "description": "inStoreParcelPhone",
-          "type": "string"
-        },
-        "inStoreParcelFax": {
-          "description": "inStoreParcelFax",
-          "type": "string"
-        },
-        "inStoreParcelHour0": {
-          "description": "inStoreParcelHour0",
-          "type": "string"
-        },
-        "inStoreParcelHour1": {
-          "description": "inStoreParcelHour1",
-          "type": "string"
-        },
-        "inStoreParcelHour2": {
-          "description": "inStoreParcelHour2",
-          "type": "string"
-        },
-        "inStoreParcelHour3": {
-          "description": "inStoreParcelHour3",
-          "type": "string"
-        },
-        "inStoreParcelHour4": {
-          "description": "inStoreParcelHour4",
-          "type": "string"
-        },
-        "inStoreParcelHour5": {
-          "description": "inStoreParcelHour5",
-          "type": "string"
-        },
-        "inStoreParcelHour6": {
-          "description": "inStoreParcelHour6",
+        "paymentOptionRef": {
           "type": "string"
         },
         "reportDelayInDays": {
-          "description": "reportDelayInDays",
-          "type": "string"
+          "format": "int32",
+          "type": "integer"
         },
-        "scheduleCount": {
-          "description": "scheduleCount",
-          "type": "string"
-        },
-        "productType": {
-          "description": "productType",
-          "type": "string"
-        },
-        "productState": {
-          "description": "productState",
-          "type": "string"
-        },
-        "productLaunchYear": {
-          "description": "productLaunchYear",
-          "type": "string"
-        },
-        "productId": {
-          "description": "productId",
-          "type": "string"
-        },
-        "productEstimatedShippingDate": {
-          "description": "productEstimatedShippingDate",
-          "type": "string"
-        },
-        "insuranceNominalRate": {
-          "description": "insuranceNominalRate",
-          "type": "string"
-        },
-        "productName": {
-          "description": "productName",
-          "type": "string"
-        },
-        "insurancePrice": {
-          "description": "insurancePrice",
-          "type": "string"
-        },
-        "marginValueRecovery": {
-          "description": "marginValueRecovery",
-          "type": "string"
-        },
-        "firstScheduleAmountWithoutVat": {
-          "description": "firstScheduleAmountWithoutVat",
-          "type": "string"
-        },
-        "recurrentScheduleAmountWithoutVat": {
-          "description": "recurrentScheduleAmountWithoutVat",
-          "type": "string"
-        },
-        "amountWithoutVat": {
-          "description": "amountWithoutVat",
-          "type": "string"
-        },
-        "isRelayPoint": {
-          "description": "isRelayPoint",
-          "type": "string"
-        },
-        "productCategoryId": {
-          "description": "productCategoryId",
-          "type": "string"
-        },
-        "productCategoryName": {
-          "description": "productCategoryName",
-          "type": "string"
-        },
-        "productUrl": {
-          "description": "productUrl",
-          "type": "string"
-        },
-        "featureRef": {
-          "description": "featureRef",
-          "type": "string"
-        },
-        "limonetikPaymentPageID": {
-          "description": "limonetikPaymentPageID",
-          "type": "string"
-        },
-        "annualInterestRate": {
-          "description": "annualInterestRate",
-          "type": "string"
-        },
-        "loanCost": {
-          "description": "loanCost",
-          "type": "string"
-        },
-        "firstInstallment": {
-          "description": "firstInstallment",
-          "type": "string"
-        },
-        "loanRef": {
-          "description": "loanRef",
-          "type": "string"
-        },
-        "installmentNumber": {
-          "description": "installmentNumber",
-          "type": "string"
-        },
-        "installmentAmount": {
-          "description": "installmentAmount",
-          "type": "string"
-        },
-        "PaymentItemName1": {
-          "description": "PaymentItemName1",
-          "type": "string"
-        },
-        "PaymentItemQuantity1": {
-          "description": "PaymentItemQuantity1",
-          "type": "string"
-        },
-        "PaymentItemPrice1": {
-          "description": "PaymentItemPrice1",
-          "type": "string"
-        },
-        "PaymentItemName2": {
-          "description": "PaymentItemName2",
-          "type": "string"
-        },
-        "PaymentItemQuantity2": {
-          "description": "PaymentItemQuantity2",
-          "type": "string"
-        },
-        "PaymentItemPrice2": {
-          "description": "PaymentItemPrice2",
-          "type": "string"
-        },
-        "HmacItem": {
-          "description": "HmacItem",
-          "type": "string"
-        },
-        "hmac": {
-          "description": "hmac",
+        "userAgent": {
           "type": "string"
         }
       }
     },
-    "CreatePot": {
-      "description": "Represents a command used to create a new pot.",
+    "ShippingAddress": {
       "type": "object",
       "properties": {
-        "PotName": {
-          "description": "Name of the pot",
+        "city": {
           "type": "string"
         },
-        "CelebrationType": {
-          "description": "Id of the type of pot",
+        "line1": {
+          "type": "string"
+        },
+        "line2": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "placeCalled": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        }
+      }
+    },
+    "SubOrder": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "invoiceId": {
+          "type": "string"
+        },
+        "orderAmountWithoutTax": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "orderRef": {
+          "type": "string"
+        },
+        "taxAmount": {
+          "format": "int64",
+          "type": "integer"
+        }
+      }
+    },
+    "PaymentSessionResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "operationSucceeded": {
+          "description": "Gets or sets a value indicating whether this instance had success.",
+          "type": "boolean"
+        },
+        "paymentSessionId": {
+          "description": "Gets or sets the payment session identifier.",
+          "type": "string"
+        },
+        "paymentSessionUrl": {
+          "description": "Gets or sets the payment session URL.",
+          "type": "string"
+        },
+        "responseMessage": {
+          "description": "The response code of the service",
+          "type": "string"
+        }
+      }
+    },
+    "GetPaymentSessionResult": {
+      "description": "All payment operation data for the response",
+      "type": "object",
+      "properties": {
+        "orderRef": {
+          "description": "The orderRef",
+          "type": "string"
+        },
+        "responseCode": {
+          "description": "The response code of the service",
           "enum": [
-            "Birthday",
-            "Housewarming",
-            "Diploma",
-            "StagParty",
-            "Wedding",
-            "Thanks",
-            "Baptism",
-            "Fairwell",
-            "Party",
-            "Holidays",
-            "OtherGift"
+            "succeeded",
+            "refused",
+            "refusedByBank",
+            "failed",
+            "pending",
+            "unknown",
+            "cancelled",
+            "notProcessed"
           ],
           "type": "string"
         },
-        "PotDescription": {
-          "description": "Description",
-          "type": "string"
-        },
-        "DateEnd": {
-          "format": "date-time",
-          "description": "Date of the event",
-          "type": "string"
-        },
-        "OwnerName": {
-          "description": "Name of the owner",
-          "type": "string"
-        },
-        "HideName": {
-          "description": "Flag hide name",
-          "type": "boolean"
-        },
-        "HideAmount": {
-          "description": "Flag hide amout",
-          "type": "boolean"
-        },
-        "HideTotalAmount": {
-          "description": "Flag hide total amout",
-          "type": "boolean"
-        },
-        "User": {
-          "$ref": "#/definitions/CreateUser",
-          "description": "User"
-        }
-      }
-    },
-    "CreateUser": {
-      "description": "Represents a command used to create a new customer.",
-      "type": "object",
-      "properties": {
-        "FirstName": {
-          "description": "Firstname",
-          "type": "string"
-        },
-        "LastName": {
-          "description": "Lastname",
-          "type": "string"
-        },
-        "BirthDate": {
-          "format": "date-time",
-          "description": "Birth date",
-          "type": "string"
-        },
-        "Country": {
-          "description": "Address : Country",
-          "type": "string"
-        },
-        "MerchantCustomerID": {
-          "description": "Customer ID in the merchant database",
-          "type": "string"
-        },
-        "MerchantID": {
-          "description": "Merchant ID",
-          "enum": ["Cdiscount"],
-          "type": "string"
-        },
-        "merchantCustomer": {
-          "$ref": "#/definitions/MerchantCustomer",
-          "description": "Customer in the merchant database"
-        },
-        "Mail": {
-          "description": "Mail address",
-          "type": "string"
-        }
-      }
-    },
-    "MerchantCustomer": {
-      "description": "The class merchant customer",
-      "type": "object",
-      "properties": {
-        "MerchantCustomerID": {
-          "description": "identifier in the merchant information system",
-          "type": "string"
-        },
-        "MerchantID": {
-          "description": "Merchant ID",
-          "enum": ["Cdiscount"],
-          "type": "string"
-        }
-      }
-    },
-    "Pot": {
-      "description": "Represents a pot.",
-      "type": "object",
-      "properties": {
-        "AccountKey": {
-          "format": "uuid",
-          "description": "Gets the identifier.",
-          "type": "string"
-        },
-        "PotName": {
-          "description": "Name",
-          "type": "string"
-        },
-        "AccountID": {
-          "format": "int32",
-          "description": "Account ID",
-          "type": "integer"
-        },
-        "CelebrationTypeCode": {
-          "description": "Celebration type ID",
+        "complementaryResponseCode": {
+          "description": "The complementary response code of the service",
           "enum": [
-            "Birthday",
-            "Housewarming",
-            "Diploma",
-            "StagParty",
-            "Wedding",
-            "Thanks",
-            "Baptism",
-            "Fairwell",
-            "Party",
-            "Holidays",
-            "OtherGift"
+            "unknown",
+            "amountLimitExceeded",
+            "limitExceeded",
+            "technicalProblem",
+            "authorized",
+            "bankFraudSuspicion",
+            "cardExpired",
+            "cardIssuerUnavailable",
+            "cardholderNotAuthenticated",
+            "dateOfValidityExpired",
+            "duplicateRequest",
+            "formatError",
+            "fraudSuspicion",
+            "illegalTransaction",
+            "invalidAcceptor",
+            "invalidAccount",
+            "invalidCardIssuer",
+            "invalidTransaction",
+            "lostCard",
+            "referenceNumberCannotBeFound",
+            "referred",
+            "refused",
+            "requestedFunctionNotSupported",
+            "securityBreach",
+            "securityRulesViolated",
+            "serverUnavailableNetworkRoutingAskedAgain",
+            "stolenCard",
+            "systemUnavailable",
+            "temporaryBankServerUnavailability",
+            "temporaryOfficeServerUnavailability",
+            "transactionNotPermitted",
+            "transactionTimedOut",
+            "unknownAcquirerAccountCode",
+            "unknownCard",
+            "updateOfFileImpossible",
+            "transactionArchived",
+            "refusedByScoring",
+            "paymentInformationFillingAttemptLimitExceeded",
+            "refusedByScoring2",
+            "notAvailable"
           ],
           "type": "string"
         },
-        "PotDescription": {
-          "description": "Description",
-          "type": "string"
-        },
-        "DateEnd": {
-          "format": "date-time",
-          "description": "Date end",
-          "type": "string"
-        },
-        "OwnerName": {
-          "description": "Owner's name",
-          "type": "string"
-        },
-        "HideName": {
-          "description": "Flag hide name",
-          "type": "boolean"
-        },
-        "HideAmount": {
-          "description": "Flag hide amount",
-          "type": "boolean"
-        },
-        "HideTotalAmount": {
-          "description": "Flag hide total amout",
-          "type": "boolean"
-        },
-        "CollectedAmount": {
-          "format": "double",
-          "description": "Collected amount",
-          "type": "number"
-        },
-        "Amount": {
-          "format": "double",
-          "description": "Amount",
-          "type": "number"
-        },
-        "DateOpen": {
-          "format": "date-time",
-          "description": "Date open",
-          "type": "string"
-        },
-        "DateClose": {
-          "format": "date-time",
-          "description": "Date close",
-          "type": "string"
-        },
-        "AccountTypeCode": {
-          "description": "Account type ID",
-          "enum": ["EMAccount", "Pot", "Cantonment", "BankAccount"],
-          "type": "string"
-        },
-        "AccountStatusCode": {
-          "description": "Account status ID",
-          "enum": ["Enable", "Disable", "InProgress", "Completed", "Canceled"],
-          "type": "string"
-        },
-        "UserID": {
-          "format": "int32",
-          "description": "User ID",
-          "type": "integer"
-        },
-        "Merchant": {
-          "description": "Merchant ID",
-          "enum": ["Cdiscount"],
-          "type": "string"
-        },
-        "MerchantCustomerId": {
-          "description": "Customer ID in the merchant database",
-          "type": "string"
-        },
-        "PotToken": {
-          "format": "uuid",
-          "description": "Identifiant pour accès extérieur",
-          "type": "string"
-        },
-        "NbParticipations": {
-          "format": "int32",
-          "description": "Number of participants",
-          "type": "integer"
-        },
-        "UserKey": {
-          "format": "uuid",
-          "description": "The UserKey",
+        "responseMessage": {
+          "description": "The response code of the service",
           "type": "string"
         }
       }
     },
-    "UpdatePotConfiguration": {
-      "description": "Represents a command used to create a new pot.",
+    "StoredPaymentMethodResponse": {
+      "description": "",
       "type": "object",
       "properties": {
-        "PotName": {
-          "description": "Name of the pot",
-          "type": "string"
+        "storedPaymentMethodList": {
+          "description": "Gets or sets the stored payment method list.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StoredPaymentMethod"
+          }
         },
-        "CelebrationTypeCode": {
-          "description": "Id of the type of pot",
-          "enum": [
-            "Birthday",
-            "Housewarming",
-            "Diploma",
-            "StagParty",
-            "Wedding",
-            "Thanks",
-            "Baptism",
-            "Fairwell",
-            "Party",
-            "Holidays",
-            "OtherGift"
-          ],
-          "type": "string"
-        },
-        "PotDescription": {
-          "description": "Description",
-          "type": "string"
-        },
-        "DateEnd": {
-          "format": "date-time",
-          "description": "Date of the event",
-          "type": "string"
-        },
-        "OwnerName": {
-          "description": "Name of the owner",
-          "type": "string"
-        },
-        "HideName": {
-          "description": "Flag hide name",
-          "type": "boolean"
-        },
-        "HideAmount": {
-          "description": "Flag hide amount",
-          "type": "boolean"
-        },
-        "HideTotalAmount": {
-          "description": "Flag hide total amount",
-          "type": "boolean"
-        },
-        "CustomImageUrl": {
-          "description": "Image URL of the pot",
-          "type": "string"
-        },
-        "MerchantCustomer": {
-          "$ref": "#/definitions/MerchantCustomer",
-          "description": "The user"
-        }
-      }
-    },
-    "Participation": {
-      "description": "Class Participation",
-      "type": "object",
-      "properties": {
-        "AccountId": {
-          "format": "int64",
-          "description": "Identifiant du compte crédité",
-          "type": "integer"
-        },
-        "ParticipationId": {
-          "format": "int64",
-          "description": "Identifiant de la Participation",
-          "type": "integer"
-        },
-        "ParticipantAccountId": {
-          "format": "int64",
-          "description": "Identifiant du compte utilisé pour participer",
-          "type": "integer"
-        },
-        "Amount": {
-          "format": "double",
-          "description": "Montant de la participation",
-          "type": "number"
-        },
-        "DateParticipation": {
-          "format": "date-time",
-          "description": "Date de la participation",
-          "type": "string"
-        },
-        "HideName": {
-          "description": "Visibilité du nom du participant",
-          "type": "boolean"
-        },
-        "HideAmount": {
-          "description": "Visibilité du montant de la participation",
-          "type": "boolean"
-        },
-        "MerchantId": {
-          "format": "int64",
-          "description": "Identifiant du site marchand du propriétaire du compte",
-          "type": "integer"
-        },
-        "MerchantCustomerId": {
-          "description": "Identifiant du propriétaire du compte chez la marchand",
-          "type": "string"
-        },
-        "LastName": {
-          "description": "Nom du participant",
-          "type": "string"
-        },
-        "FirstName": {
-          "description": "Prénom du participant",
-          "type": "string"
-        },
-        "Mail": {
-          "description": "Adresse mail du participant",
+        "responseMessage": {
+          "description": "The response code of the service",
           "type": "string"
         }
       }
     },
-    "UpdatePotStatus": {
-      "description": "The class update pot status",
+    "StoredPaymentMethod": {
       "type": "object",
       "properties": {
-        "State": {
-          "description": "The state",
-          "enum": ["Enable", "Disable", "InProgress", "Completed", "Canceled"],
+        "lastTransactionDate": {
+          "format": "date-time",
           "type": "string"
         },
-        "MerchantCustomer": {
-          "$ref": "#/definitions/MerchantCustomer",
-          "description": "The user"
+        "paymentMethodExpirationDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "holderBirthDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "methodSubtype": {
+          "type": "string"
+        },
+        "methodType": {
+          "type": "string"
+        },
+        "customerRef": {
+          "type": "string"
+        },
+        "paymentMethodRef": {
+          "type": "string"
+        },
+        "storedPaymentMethodId": {
+          "type": "string"
+        },
+        "truncatedPaymentMethodNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "StoredPaymentMethodRequest": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/CardPaymentContextData",
+          "description": "Gets or Sets ContextData"
+        },
+        "card": {
+          "$ref": "#/definitions/CardData",
+          "description": "The card data"
+        }
+      },
+      "example": {
+        "context": {
+          "merchantId": 1,
+          "merchantSiteId": "100",
+          "currency": "eur",
+          "country": "fr",
+          "paymentOptionRef": "1",
+          "customerRef": "CUSTOMER01",
+          "paymentAttempt": null
+        },
+        "card": {
+          "cardOptionId": null,
+          "cardScheme": "cb",
+          "expirationDate": "2019-12-31T00:00:00",
+          "cardNumber": "5017670000001800",
+          "securityNumber": "123",
+          "cardLabel": "Ma carte de test"
         }
       }
     }
