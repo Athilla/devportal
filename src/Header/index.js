@@ -1,25 +1,24 @@
-import React, { PureComponent } from "react";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import { withStyles } from "@material-ui/styles";
-import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
-import WbIncandescentOutlinedIcon from "@material-ui/icons/WbIncandescentOutlined";
-import { func, object } from "prop-types";
+import React, { PureComponent } from 'react';
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+import WbIncandescentRoundedIcon from '@material-ui/icons/WbIncandescentRounded';
+import WbIncandescentOutlinedIcon from '@material-ui/icons/WbIncandescentOutlined';
+import { func, object } from 'prop-types';
 
 const useStyles = theme => ({
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 });
 
 class Header extends PureComponent {
   constructor() {
     super();
     this.state = {
-      themeClaire: true
+      themeClaire: true,
     };
   }
   handleChangeTheme = () => {
@@ -41,10 +40,7 @@ class Header extends PureComponent {
           <Typography variant="h6" className={classes.title}>
             DocumentationApi Title
           </Typography>
-          <Button
-            className={classes.menuButton}
-            onClick={this.handleChangeTheme}
-          >
+          <Button className={classes.menuButton} onClick={this.handleChangeTheme}>
             {themeClaire && <WbIncandescentOutlinedIcon />}
             {!themeClaire && <WbIncandescentRoundedIcon />}
           </Button>
@@ -55,12 +51,12 @@ class Header extends PureComponent {
 }
 
 Header.defaultProps = {
-  changeTheme: Function.prototype
+  changeTheme: Function.prototype,
 };
 Header.propTypes = {
   changeTheme: func,
   // eslint-disable-next-line react/forbid-prop-types
-  classes: object.isRequired
+  classes: object.isRequired,
 };
 
 export default withStyles(useStyles, { withTheme: true })(Header);

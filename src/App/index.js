@@ -1,38 +1,32 @@
-import {
-  Redirect,
-  Route,
-  BrowserRouter as Router,
-  Switch
-} from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import React, { Component, Fragment } from "react";
-import Header from "../Header";
-import Redoc from "../Redoc";
-import Md from "../Md";
-import MdEditor from "../MdEditor";
-import Container from "@material-ui/core/Container";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Toolbar from "@material-ui/core/Toolbar";
+import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import React, { Component, Fragment } from 'react';
+import Header from '../Header';
+import Redoc from '../Redoc';
+import Md from '../Md';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const classes = theme => ({
   root: {
-    display: "flex",
+    display: 'flex',
     flexGrow: 1,
-    width: "100%",
-    maxWidth: "100%",
-    position: "fixed",
+    width: '100%',
+    maxWidth: '100%',
+    position: 'fixed',
     bottom: theme.spacing(2),
-    right: theme.spacing(2)
+    right: theme.spacing(2),
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
+    transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
-  }
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
 });
 
 class App extends Component {
@@ -40,16 +34,14 @@ class App extends Component {
     // console.log(this.props.theme);
     if (themeClaire) {
       //console.log("Theme Claire ");
-      this.props.theme.palette.type = "light";
+      this.props.theme.palette.type = 'light';
     } else {
       //console.log("theme Foncé");
-      this.props.theme.palette.type = "dark";
+      this.props.theme.palette.type = 'dark';
     }
   };
 
   render = () => {
-    const { classes } = this.props;
-
     return (
       <div className="{classes.root}">
         <Router>
@@ -61,7 +53,6 @@ class App extends Component {
               <Switch>
                 <Route path="/ApiDocumentation" component={Redoc} />
                 <Route path="/Payment_saas_integration" component={Md} />
-                <Route path="/editor" component={MdEditor} />
                 <Redirect to="/Payment_saas_integration" />
               </Switch>
             </Container>

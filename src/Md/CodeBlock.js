@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 const hljs = window.hljs;
 
 class CodeBlock extends React.PureComponent {
@@ -36,12 +36,12 @@ class CodeBlock extends React.PureComponent {
 }
 
 CodeBlock.defaultProps = {
-  language: ""
+  language: '',
 };
 
 CodeBlock.propTypes = {
   value: PropTypes.string.isRequired,
-  language: PropTypes.string
+  language: PropTypes.string,
 };
 
-module.exports = CodeBlock;
+export default CodeBlock;
