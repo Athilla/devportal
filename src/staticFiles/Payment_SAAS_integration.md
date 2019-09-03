@@ -1368,7 +1368,7 @@ The fields are the following :
 
 ---
 
-PaymentOperationsRequest{  
+PaymentOperationsRequest{
  merchantId integer(\$int32) The merchant identifier
 merchantSiteId string The merchant site identifier.
 attempt integer(\$int32) The attempt number (usefull if you retry an operation multiple times).
@@ -1415,12 +1415,12 @@ You can find below the exhaustive list of cases which may happen.
 _Because the refund operation cannot be executed on a non-captured
 transaction, only the cancel operation is supported_
 
-**Partial operation**  
+**Partial operation**
 No interaction with partners because partial cancel/void is not supported.
 The only impact is an update of the remaining amount to capture in payment hub
 
 **Full operation**
-**Cancel** operation will be executed on the entire transaction. 
+**Cancel** operation will be executed on the entire transaction.
 The fund reservation on the  customer payment method will be cleared, and capture will no longer be possible.
 >Cancelling a non captured transaction is not worldwide supported. Depending on the payment partner (PSP), the acquiring bank, and the issuing bank.
 
@@ -1475,7 +1475,7 @@ The fields are the following :
 
 ---
 
-PaymentOperationsRequest{  
+PaymentOperationsRequest{
  merchantId integer(\$int32) The merchant identifier
 merchantSiteId string The merchant site identifier.
 attempt integer(\$int32) The attempt number (useful if you retry an operation multiple times).
@@ -1787,13 +1787,13 @@ The fields are the following :
 
 ---
 
-ShippingAddress {  
- City string  
- line1 string  
- line2 string  
- name string  
- placeCalled string  
- ZipCode string  
+ShippingAddress {
+ City string
+ line1 string
+ line2 string
+ name string
+ placeCalled string
+ ZipCode string
  }
 
 in Response :
@@ -1805,7 +1805,7 @@ corresponding payment page.
 
 ---
 
-PaymentSessionResponse {  
+PaymentSessionResponse {
  operationSucceeded boolean Field indicating if the sesson has been created
 paymentSessionId string Created Session Id
 paymentSessionUrl string Created Payment URL
@@ -1850,9 +1850,9 @@ In response :
 
 orderRef  string Order reference
 responseCode string Indicates the current status of the payment session
-[ succeeded, refused, refusedByBank, failed, pending, unknown, cancelled, notProcessed ]  
+[ succeeded, refused, refusedByBank, failed, pending, unknown, cancelled, notProcessed ]
  complementaryResponseCode string This field gives additional data about the status (ex: Refused by bank)
-[ unknown, amountLimitExceeded, limitExceeded, technicalProblem, \... ]  
+[ unknown, amountLimitExceeded, limitExceeded, technicalProblem, \... ]
  responseMessage string
 
 # Annex
@@ -2316,14 +2316,7 @@ to access the URLs above. And we will give you access.
 
 # Diagram : 3DS Cinematic (REST API)
 
-+-----------------------------------------------------------------------+
-| ------------------------------------------------------------------- |
-| ---------------- |
-| ![C:\img_9.png](media/image7.png){width="4.875in" height="5.22916 |
-| 6666666667in"} |
-| ------------------------------------------------------------------- |
-| ---------------- |
-+-----------------------------------------------------------------------+
+ ![/staticFiles/media/_7.png](/staticFiles/media/_7.png)
 
 # Diagram : 3DS Cinematic with automatic Capture (REST API)
 

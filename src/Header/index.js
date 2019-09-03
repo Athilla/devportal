@@ -16,7 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { ChevronLeft, ChevronRight, SaveAlt, TrendingUp, Widgets } from '@material-ui/icons';
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const useStyles = theme => ({
   root: {
@@ -33,9 +33,9 @@ const useStyles = theme => ({
     zIndex: 1,
     //a  overflow: 'hidden',
     position: 'static',
-    display: 'flex',
+//    display: 'flex',
     width: '100%',
-    flexDirection: 'column',
+  //  flexDirection: 'column',
   },
   menuButton: {
     marginLeft: 12,
