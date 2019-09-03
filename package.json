@@ -23,6 +23,9 @@
     "react-scripts": "^3.1.1",
     "redoc": "^2.0.0-rc.14",
     "redux-saga": "^1.0.5",
+    "remark-breaks": "^1.0.3",
+    "remarkable": "^2.0.0",
+    "remarkable-react": "^1.4.1",
     "styled-components": "^4.3.2"
   },
   "scripts": {

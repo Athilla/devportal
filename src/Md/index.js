@@ -3,6 +3,18 @@ import ReactMarkdown from 'react-markdown/with-html';
 import file from '../staticFiles/Payment_SAAS_integration.md';
 import { withStyles } from '@material-ui/styles';
 import CodeBlock from './CodeBlock';
+import breaks from 'remark-breaks';
+import RemarkableReactRenderer from 'remarkable-react';
+
+import { Remarkable } from 'remarkable';
+
+const hljs = window.hljs;
+
+var md = new Remarkable( {
+      html:         true,
+});
+md.renderer = new RemarkableReactRenderer();
+
 
 class Md extends Component {
   constructor(props) {
@@ -22,8 +34,12 @@ class Md extends Component {
   render = () => {
     return (
       //https://github.com/rexxars/react-markdown
-      <ReactMarkdown source={this.state.file} renderers={{ code: CodeBlock }} />
+      <ReactMarkdown source={this.state.file} renderers={{ code: CodeBlock }} plugins={[breaks]} />
     );
+  };
+
+  renderb = () => {
+    return md.render(this.state.file);
   };
 }
 

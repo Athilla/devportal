@@ -1369,7 +1369,7 @@ The fields are the following :
 ---
 
 PaymentOperationsRequest{
- merchantId integer(\$int32) The merchant identifier
+merchantId integer(\$int32) The merchant identifier
 merchantSiteId string The merchant site identifier.
 attempt integer(\$int32) The attempt number (usefull if you retry an operation multiple times).
 rank integer(\$int32) The rank concerned by the operation
@@ -1421,8 +1421,9 @@ The only impact is an update of the remaining amount to capture in payment hub
 
 **Full operation**
 **Cancel** operation will be executed on the entire transaction.
-The fund reservation on the  customer payment method will be cleared, and capture will no longer be possible.
->Cancelling a non captured transaction is not worldwide supported. Depending on the payment partner (PSP), the acquiring bank, and the issuing bank.
+The fund reservation on the customer payment method will be cleared, and capture will no longer be possible.
+
+> Cancelling a non captured transaction is not worldwide supported. Depending on the payment partner (PSP), the acquiring bank, and the issuing bank.
 
 #### After the capture
 
@@ -1476,7 +1477,7 @@ The fields are the following :
 ---
 
 PaymentOperationsRequest{
- merchantId integer(\$int32) The merchant identifier
+merchantId integer(\$int32) The merchant identifier
 merchantSiteId string The merchant site identifier.
 attempt integer(\$int32) The attempt number (useful if you retry an operation multiple times).
 rank integer(\$int32) The rank affected by the operation
@@ -1485,22 +1486,17 @@ amount integer(\$int64) The amount (if set to 0 the whole amount will be capture
 
 Example :
 
+```JSON
 {
-
-"merchantId": 1,
-
-"merchantSiteId": "8002",
-
-"attempt": 1,
-
-"rank": 1,
-
-"amount": 0
-
+    "merchantId": 1,
+    "merchantSiteId": "8002",
+    "attempt": 1,
+    "rank": 1,
+    "amount": 0
 }
+```
 
-More details on the [Open API
-Specification](https://paymentgateway.recette-cdiscount.com/swagger/)
+More details on the [Open API Specification](/ApiDocumentation/)
 
 # Get details
 
@@ -1518,14 +1514,18 @@ There is 2 differents API route you can use :
 
 Without orderTag :
 
-/v1/payments/{orderRef}/merchants/{merchantId}/sites/{merchantSiteId}
+```
+ /v1/payments/{orderRef}/merchants/{merchantId}/sites/{merchantSiteId}
+```
 
 With orderTag (optional parameter, for specific purposes) :
 
+```
 /v1/payments/{orderRef}/merchants/{merchantId}/sites/{merchantSiteId}/{orderTag}
+```
 
 More details on the [Open API
-Specification](https://paymentgateway.recette-cdiscount.com/swagger/)
+Specification](/ApiDocumentation/)
 
 # [POST] /PaymentSession
 
@@ -1548,7 +1548,9 @@ In the first time, the merchant should provide all parameters below :
 
 The API route to use is the following :
 
+```
 POST /v1/payment-sessions
+```
 
 With the JSON body as defined below.
 
@@ -1788,13 +1790,13 @@ The fields are the following :
 ---
 
 ShippingAddress {
- City string
- line1 string
- line2 string
- name string
- placeCalled string
- ZipCode string
- }
+City string
+line1 string
+line2 string
+name string
+placeCalled string
+ZipCode string
+}
 
 in Response :
 
@@ -1806,7 +1808,7 @@ corresponding payment page.
 ---
 
 PaymentSessionResponse {
- operationSucceeded boolean Field indicating if the sesson has been created
+operationSucceeded boolean Field indicating if the sesson has been created
 paymentSessionId string Created Session Id
 paymentSessionUrl string Created Payment URL
 responseMessage string Empty if the operation was successful, else it will indicate why the operation has failed
@@ -1822,8 +1824,9 @@ After using [[POST]
 
 The API route to use is the following :
 
-GET
-/v1/payment-sessions/{paymentSessionId}/merchants/{merchantId}/sites/{merchantSiteId}
+```
+GET /v1/payment-sessions/{paymentSessionId}/merchants/{merchantId}/sites/{merchantSiteId}
+```
 
 With the JSON body as defined below.
 
@@ -1851,9 +1854,9 @@ In response :
 orderRef  string Order reference
 responseCode string Indicates the current status of the payment session
 [ succeeded, refused, refusedByBank, failed, pending, unknown, cancelled, notProcessed ]
- complementaryResponseCode string This field gives additional data about the status (ex: Refused by bank)
+complementaryResponseCode string This field gives additional data about the status (ex: Refused by bank)
 [ unknown, amountLimitExceeded, limitExceeded, technicalProblem, \... ]
- responseMessage string
+responseMessage string
 
 # Annex
 
@@ -1875,20 +1878,16 @@ There is a test environment for front-end and back-end of Payment SAAS.
 
 The REST API also has an OpenAPI Specification with Swagger.
 
-**Test Environment** **URL**
+| **Test Environment**          | **URL**                                                                                                                      |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Front-end                     | [https://payment.recette-cdiscount.com](https://payment.recette-cdiscount.com)                                 |
+| REST API (back-end)           | [https://paymentgateway.recette-cdiscount.com](https://paymentgateway.recette-cdiscount.com)                   |
+| OpenAPI Specification Swagger | [https://paymentgateway.recette-cdiscount.com/swagger/](https://paymentgateway.recette-cdiscount.com/swagger/) |
 
----
-
-Front-end [[https://payment.recette-cdiscount.com]{.underline}](https://payment.recette-cdiscount.com)
-REST API (back-end) [[https://paymentgateway.recette-cdiscount.com]{.underline}](https://paymentgateway.recette-cdiscount.com)
-OpenAPI Specification Swagger [[https://paymentgateway.recette-cdiscount.com/swagger/]{.underline}](https://paymentgateway.recette-cdiscount.com/swagger/)
-
-ACCESS
-
-The test environment is not open on the internet by default.
-
-You need to provide the list of public external IPs from which you want
-to access the URLs above. And we will give you access.
+>**ACCESS**
+>
+>The test environment is not open on the internet by default.
+>You need to provide the list of public external IPs from which you want to access the URLs above. And we will give you access.
 
 # Data dictionary
 
@@ -2300,7 +2299,7 @@ to access the URLs above. And we will give you access.
 # Sequence diagrams
 
 - [Diagram : 3DS Cinematic (REST
-  API)](https://confluence.cdiscount.com/pages/viewpage.action)
+  API)](#Diagram-:-3DS-Cinematic-(REST-API))
 
 - [Diagram : 3DS Cinematic with automatic Capture (REST
   API)](https://confluence.cdiscount.com/pages/viewpage.action)
@@ -2316,49 +2315,23 @@ to access the URLs above. And we will give you access.
 
 # Diagram : 3DS Cinematic (REST API)
 
- ![/staticFiles/media/_7.png](/staticFiles/media/_7.png)
+![Diagram : 3DS Cinematic (REST API)](/staticFiles/media/6969bc7a-2364-4af0-9e47-ab68003882e4.png)
 
 # Diagram : 3DS Cinematic with automatic Capture (REST API)
 
-+-----------------------------------------------------------------------+
-| ------------------------------------------------------------------- |
-| ----------------- |
-| ![C:\img_10.png](media/image8.png){width="4.875in" height="4.2916 |
-| 66666666667in"} |
-| ------------------------------------------------------------------- |
-| ----------------- |
-+-----------------------------------------------------------------------+
+![Diagram : 3DS Cinematic with automatic Capture (REST API)](/staticFiles/media/c64531e2-2f08-495e-8923-53d51353d045.png)
 
 # Diagram : Add a card (REST API)
 
-+-----------------------------------------------------------------------+
-| ------------------------------------------------------------------- |
-| ------------------ |
-| ![C:\img_11.png](media/image9.png){width="4.875in" height="3.2916 |
-| 666666666665in"} |
-| ------------------------------------------------------------------- |
-| ------------------ |
-+-----------------------------------------------------------------------+
+ ![Diagram : Add a card (REST API)](/staticFiles/media/4d384e54-86ca-4476-ae5c-809c74260ede.png)
 
 # Diagram : Authorize / Capture (REST API)
 
-+-----------------------------------------------------------------------+
-| ![C:\img_12.png](media/image10.png){width="4.875in" height="4.958 |
-| 333333333333in"} |
-| ------------------------------------------------------------------- |
-| ------------------ |
-+-----------------------------------------------------------------------+
+![Diagram : Authorize / Capture (REST API)](/staticFiles/media/aece53d2-227f-4bff-aebb-b2c1da87f014.png)
 
 # Diagram : Authorize with automatic Capture (REST API)
 
-+-----------------------------------------------------------------------+
-| ------------------------------------------------------------------- |
-| ----- |
-| ![C:\img_13.png](media/image11.png){width="4.875in" height="3.75i |
-| n"} |
-| ------------------------------------------------------------------- |
-| ----- |
-+-----------------------------------------------------------------------+
+![ Diagram : Authorize with automatic Capture (REST API)](/staticFiles/media/bdb3efac-79fb-4bc0-9099-766bc4848767.png)
 
 # Hosted Forms Screenshots
 
@@ -2366,66 +2339,36 @@ to access the URLs above. And we will give you access.
 
 ## Initialization
 
-## ![C:\img_14.png](media/image12.png){width="4.875in" height="2.375in"}
+![Init](/staicFiles/media/db7b29ad-0b33-4718-8f50-e3352e060aa7.png)
 
 ## Wrong card informations
 
-![C:\img_15.png](media/image13.png){width="4.875in" height="2.4375in"}
+![ Wrong card informations](/staticFiles/media/e935ee97-27d4-4853-9d64-86224307cab9.png)
 
 ## Wait page
 
-![C:\img_16.png](media/image14.png){width="4.875in" height="2.375in"}
+![ Wait page](/staticFiles/media/ca0e73a1-f118-4d90-9415-87d17aac6889.png)
 
 ## 3D-Secure authentication
 
-![C:\img_17.png](media/image15.png){width="4.875in"
-height="2.3854166666666665in"}
+![3D-Secure authentication](/staticFiles/media/695c2468-f477-4b20-844f-1c6f9f0874eb.png)
 
 ## MerchantReturn page (shows the final POST result)
 
-![C:\img_18.png](media/image16.png){width="4.875in" height="2.5in"}
+![MerchantReturn page (shows the final POST result)](/staticFiles/media/b3d580f5-fc45-4d4e-a298-0f774eb8649c.png)
 
 # Test Data
 
 This table below gives different information about test cases that
-[provide a positive result]{.underline} :
+[provide a positive result] :
 
-+-------------+-------------+-------------+-------------+-------------+
-| ### Card ty | ### Number | ### Expirat | ### Securit | ### Remarks |
-| pe by PSP { | {#number} | ion date {# | y code (CVV | {#remarks} |
-| #card-type- | | expiration- | ) {#securit | |
-| by-psp} | | date} | y-code-cvv} | |
-+=============+=============+=============+=============+=============+
-| **CB | 50176700000 | Greater | whatever | **It should |
-| 3D-Secure | 01800 | than today | 3-letters | be used or |
-| enrolled | | | numeric | considered |
-| (SIPS)** | | | code (000, | first** |
-| | | | 123, \...) | |
-+-------------+-------------+-------------+-------------+-------------+
-| **CB | 80001100000 | Greater | whatever | Password |
-| 3D-Secure | 00109\ | than today | 3-letters | CDISCOUNT |
-| enrolled | 49701011223 | | numeric | (for |
-| (PAYLINE)** | 34455 | | code (000, | 3DSecure) |
-| | | | 123, \...) | |
-+-------------+-------------+-------------+-------------+-------------+
-| **CB | 80002673590 | Greater | whatever | Password |
-| Virtuelle | 00005  | than today | 3-letters | CDISCOUNT |
-| 3D-Secure | | | numeric | (for |
-| (PAYLINE)** | | | code (000, | 3DSecure) |
-| | | | 123, \...) | |
-+-------------+-------------+-------------+-------------+-------------+
-| **CB | 50176700000 | Greater | whatever | [ ]{.underl |
-| Virtuelle 3 | 11809 | than today | 3-letters | ine} |
-| D-Secure (S | | | numeric | |
-| IPS)** |  5017674000 | | code (000, | |
-| | 010001 | | 123, \...) | |
-+-------------+-------------+-------------+-------------+-------------+
-| **CB | 50176700000 | Greater | whatever | It does KO |
-| (SIPS)** | 05900 | than today | 3-letters | payment on |
-| | | | numeric | 3D secure |
-| | | | code (000, | |
-| | | | 123, \...) | |
-+-------------+-------------+-------------+-------------+-------------+
+|**Card type by PSP** | **Number**  | **Expiration date** | **Security code (CVV)** | **Remarks** |
+|-|-|-|-|-|
+|CB 3D-Secure enrolled (SIPS)|5017670000001800|Greater than today|whatever 3-letters numeric code (000, 123, ...)|It should be used or considered first|
+|CB 3D-Secure enrolled (PAYLINE)|8000110000000109<br/>4970101122334455|Greater than today|whatever 3-letters numeric code (000, 123, ...)|Password CDISCOUNT (for 3DSecure)|
+|CB Virtuelle 3D-Secure (PAYLINE)|8000267359000005 |Greater than today|whatever 3-letters numeric code (000, 123, ...)|Password CDISCOUNT (for 3DSecure)|
+|CB Virtuelle 3D-Secure (SIPS)|5017670000011809<br/>5017674000010001|Greater than today|whatever 3-letters numeric code (000, 123, ...)|-|
+|CB (SIPS)|5017670000005900|Greater than today|whatever 3-letters numeric code (000, 123, ...)|It does KO payment on 3D secure|
 
 ## **SIPS CARD GAME "Cases":**
 
@@ -2433,92 +2376,31 @@ In the other hand, the table below gives differents test card with
 differents test cases that provide a negative result.\
 Those specifics test cards only work with SIPS partner (Worldline).
 
-+--------+--------+--------+--------+--------+--------+--------+--------+
-| ### De | ### CB | ### CB | ### CB | ### CB | ### CB | ### Ex | ### Se |
-| script | only | /MC 3D | /MC no | /Visa | /Visa | pirati | curity |
-| ion {# | {#cb-o | S {#cb | n 3DS | 3DS {# | non 3D | on dat | code |
-| descri | nly} | mc-3ds | {#cbmc | cbvisa | S {#cb | e {#ex | (CVV) |
-| ption} | | } | -non-3 | -3ds} | visa-n | pirati | {#secu |
-| | | | ds} | | on-3ds | on-dat | rity-c |
-| | | | | | } | e-1} | ode-cv |
-| | | | | | | | v-1} |
-| | | | | | | ### { | |
-| | | | | | | #secti | |
-| | | | | | | on-1} | |
-+========+========+========+========+========+========+========+========+
-| Not to | 501767 | 501767 | 501767 | 501767 | 501767 | Greate | whatev |
-| delive | 910090 | 920030 | 920090 | 940030 | 940090 | r | er |
-| r | 0605 | 0805 | 0505 | 0605 | 0305 | than | 3-lett |
-| or | | | | | | today | ers |
-| accept | | | | | | | numeri |
-| | | | | | | | c |
-| " Do | | | | | | | code |
-| not | | | | | | | (000, |
-| honor" | | | | | | | 123, |
-| | | | | | | | \...) |
-+--------+--------+--------+--------+--------+--------+--------+--------+
-| Invali | 501767 | 501767 | 501767 | 501767 | 501767 | Greate | whatev |
-| d | 910090 | 920030 | 920090 | 940030 | 940090 | r | er |
-|   | 0613 | 0813 | 0513 | 0613 | 0313 | than | 3-lett |
-| amount | | | | | | today | ers |
-| | | | | | | | numeri |
-| | | | | | | | c |
-| | | | | | | | code |
-| | | | | | | | (000, |
-| | | | | | | | 123, |
-| | | | | | | | \...) |
-+--------+--------+--------+--------+--------+--------+--------+--------+
-| Stolen | 501767 | 501767 | 501767 | 501767 | 501767 | Greate | whatev |
-| card | 910090 | 920030 | 920090 | 940030 | 940090 | r | er |
-| | 0043 | 0243 | 0943 | 0043 | 0743 | than | 3-lett |
-| | | | | | | today | ers |
-| | | | | | | | numeri |
-| | | | | | | | c |
-| | | | | | | | code |
-| | | | | | | | (000, |
-| | | | | | | | 123, |
-| | | | | | | | \...) |
-+--------+--------+--------+--------+--------+--------+--------+--------+
-| Valida | 501767 | 501767 | 501767 | 501767 | 501767 | Greate | whatev |
-| tion | 910090 | 920030 | 920090 | 940030 | 940090 | r | er |
-|   date | 0654 | 0854 | 0554 | 0654 | 0354 | than | 3-lett |
-| expire | | | | | | today | ers |
-| d | | | | | | | numeri |
-| | | | | | | | c |
-| | | | | | | | code |
-| | | | | | | | (000, |
-| | | | | | | | 123, |
-| | | | | | | | \...) |
-+--------+--------+--------+--------+--------+--------+--------+--------+
-| Suspic | 501767 | 501767 | 501767 | 501767 | 501767 | Greate | whatev |
-| ion | 910090 | 920030 | 920090 | 940030 | 940090 | r | er |
-| of | 0159 | 0359 | 0059 | 0159 | 0859 | than | 3-lett |
-| fraud | | | | | | today | ers |
-| | | | | | | | numeri |
-| | | | | | | | c |
-| | | | | | | | code |
-| | | | | | | | (000, |
-| | | | | | | | 123, |
-| | | | | | | | \...) |
-+--------+--------+--------+--------+--------+--------+--------+--------+
+| **Description** | **CB only** | **CB/MC 3DS** | **CB/MC non 3DS** | **CB/Visa 3DS**| **CB/Visa non 3DS** | **Expiration date** | **Security code (CVV)**|
+|-|-|-|-|-|-|-|-|
+|Not to deliver or accept<br/>”Do not honor”|5017679100900605|5017679200300805|5017679200900505|5017679400300605|5017679400900305|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
+|Invalid   amount|5017679100900613|5017679200300813|5017679200300813|5017679400300613|5017679400900313|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
+|Stolen card|5017679100900043|5017679200300243|5017679200900943|5017679400300043|5017679400900743|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
+|Validation   date expired|5017679100900654|5017679200300854|5017679200900554|5017679400300654|5017679400900354|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
+|Suspicion of fraud|5017679100900159|5017679200300359|5017679200900059|5017679400300159|5017679400900859|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
 
 # Payment Options Referential
 
-**Reference** **Definition**
+| **Reference** |  **Definition** |
+|-|-|
+|1  | Card  |
+|17 | Paypal|
+|21 | Card with 3DS|
+|26 | Card 4 times|
+|37 | CUP Credit Card |
+|38 | CUP Credit Card subscription |
+|40 | American Express|
+|42 | Card with 3DS 4 times |
+|55 | Card Bancontact Mistercash|
+|84 | SEPA Direct Debit (SDD)|
+|87 | CUP Credit Card with 3DS|
+|88 | LYDIA|
+|90 | PAYLIB|
+|91 | Apple Pay|
 
----
 
-1 Card
-17 Paypal
-21 Card with 3DS
-26 Card 4 times
-37 CUP Credit Card 
-38 CUP Credit Card subscription 
-40 American Express
-42 Card with 3DS 4 times 
-55 Card Bancontact Mistercash
-84 SEPA Direct Debit (SDD)
-87 CUP Credit Card with 3DS
-88 LYDIA
-90 PAYLIB
-91 Apple Pay

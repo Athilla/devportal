@@ -31,11 +31,11 @@ const useStyles = theme => ({
   appFrame: {
     height: '430',
     zIndex: 1,
-    //a  overflow: 'hidden',
+    aOverflow: 'hidden',
     position: 'static',
-//    display: 'flex',
+display: 'flex',
     width: '100%',
-  //  flexDirection: 'column',
+ flexDirection: 'column',
   },
   menuButton: {
     marginLeft: 12,
@@ -154,7 +154,7 @@ class Header extends PureComponent {
                 <ListItemIcon>
                   <Widgets />
                 </ListItemIcon>
-                <ListItemText primary="Payment_saas_integration" />
+                <ListItemText primary="Payment saas integration" />
               </ListItem>
             </Link>
           </List>
