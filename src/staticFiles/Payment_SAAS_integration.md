@@ -1548,7 +1548,7 @@ In the first time, the merchant should provide all parameters below :
 
 The API route to use is the following :
 
-```
+```HTML
 POST /v1/payment-sessions
 ```
 
@@ -1878,428 +1878,67 @@ There is a test environment for front-end and back-end of Payment SAAS.
 
 The REST API also has an OpenAPI Specification with Swagger.
 
-| **Test Environment**          | **URL**                                                                                                                      |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Test Environment**          | **URL**                                                                                                        |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | Front-end                     | [https://payment.recette-cdiscount.com](https://payment.recette-cdiscount.com)                                 |
 | REST API (back-end)           | [https://paymentgateway.recette-cdiscount.com](https://paymentgateway.recette-cdiscount.com)                   |
 | OpenAPI Specification Swagger | [https://paymentgateway.recette-cdiscount.com/swagger/](https://paymentgateway.recette-cdiscount.com/swagger/) |
 
->**ACCESS**
+> **ACCESS**
 >
->The test environment is not open on the internet by default.
->You need to provide the list of public external IPs from which you want to access the URLs above. And we will give you access.
+> The test environment is not open on the internet by default.
+> You need to provide the list of public external IPs from which you want to access the URLs above. And we will give you access.
 
 # Data dictionary
 
-+-----------------------+-----------------------+-----------------------+
-| **Field** | **Description** | **Type** |
-+=======================+=======================+=======================+
-| **allowCardStorage** | Flag allowing the | Number |
-| | storage of the used | |
-| | bank card | 1 character |
-| | | |
-| | Value in : | |
-| | | |
-| | \-       0 (do not | |
-| | store the used bank | |
-| | card) | |
-| | | |
-| | \-       1 (store the | |
-| | used bank card) | |
-+-----------------------+-----------------------+-----------------------+
-| **amount** | Total amount with | Non-signed integer |
-| | taxes of the order | |
-+-----------------------+-----------------------+-----------------------+
-| **complementaryReturn | Complementary code of | Number\ |
-| Code** | the payment result | 1 to 2 characters |
-| | | |
-| | Value in: | |
-| | | |
-| | \-       0 (Unknown) | |
-| | | |
-| | \-       1 (Exceeds | |
-| | the maximum allowed) | |
-| | | |
-| | \-       2 (Amount | |
-| | too high) | |
-| | | |
-| | \-       3 (Technical | |
-| | problem) | |
-| | | |
-| | \-       4 | |
-| | (Authorized) | |
-| | | |
-| | \-       5 (Fraud | |
-| | suspected by the | |
-| | bank) | |
-| | | |
-| | \-       6 (Expired | |
-| | method of payment) | |
-| | | |
-| | \-       7 (Cannot | |
-| | reach the issuer of | |
-| | the payment method) | |
-| | | |
-| | \-       8 (Payment | |
-| | method holder not | |
-| | 3D-Secure | |
-| | authenticated) | |
-| | | |
-| | \-       9 (Exceeded | |
-| | date of validity of | |
-| | the payment method) | |
-| | | |
-| | \-       10 | |
-| | (Duplicated | |
-| | transaction : for a | |
-| | given day, this | |
-| | transaction | |
-| | identifier has | |
-| | already been used) | |
-| | | |
-| | \-       11 (Format | |
-| | error) | |
-| | | |
-| | \-       12 | |
-| | (Suspected fraud) | |
-| | | |
-| | \-       13 | |
-| | (Transaction not | |
-| | authorized for this | |
-| | holder) | |
-| | | |
-| | \-       14 (Invalid | |
-| | merchant contract) | |
-| | | |
-| | \-       15 (Invalid | |
-| | payment method | |
-| | details) | |
-| | | |
-| | \-       16 (Unknown | |
-| | issuer of payment | |
-| | method) | |
-| | | |
-| | \-       17 (Invalid | |
-| | transaction) | |
-| | | |
-| | \-       18 (Lost | |
-| | payment method) | |
-| | | |
-| | \-       19 (Unknow | |
-| | transaction) | |
-| | | |
-| | \-       20 (Request | |
-| | for authorization by | |
-| | phone to the bank due | |
-| | to exceeded | |
-| | authorization ceiling | |
-| | on the card, if it is | |
-| | possible to force | |
-| | transactions) | |
-| | | |
-| | \-       21 (Refused | |
-| | authorized) | |
-| | | |
-| | \-       22 (Not | |
-| | supported) | |
-| | | |
-| | \-       23 (Security | |
-| | breach) | |
-| | | |
-| | \-       24 (Security | |
-| | rules not fullfilled) | |
-| | | |
-| | \-       25 | |
-| | (Unattainable server) | |
-| | | |
-| | \-       26 (Stolen | |
-| | payment method) | |
-| | | |
-| | \-       27 (System | |
-| | malfunction) | |
-| | | |
-| | \-       28 (Bank | |
-| | server temporarily | |
-| | unavailable) | |
-| | | |
-| | \-       29 (PSP | |
-| | server temporarily | |
-| | unavailable) | |
-| | | |
-| | \-       30 | |
-| | (Transaction | |
-| | prohibited for this | |
-| | terminal) | |
-| | | |
-| | \-       31 (Response | |
-| | not received or | |
-| | received too late) | |
-| | | |
-| | \-       32 (Unknown | |
-| | acquisition | |
-| | organization | |
-| | identifier) | |
-| | | |
-| | \-       33 (Unknown | |
-| | payment method) | |
-| | | |
-| | \-       34 | |
-| | (Operation impossible | |
-| | because incompatible | |
-| | with the state of the | |
-| | transaction) | |
-| | | |
-| | \-       35 | |
-| | (Transaction not | |
-| | found at the PSP | |
-| | because already | |
-| | archived) | |
-| | | |
-| | \-       36 (Refusal | |
-| | issued by | |
-| | the « Scoring » | |
-| | service provider) | |
-| | | |
-| | \-       37 (Number | |
-| | of attempts to enter | |
-| | the details of the | |
-| | payment method | |
-| | exceeded) | |
-+-----------------------+-----------------------+-----------------------+
-| **currency** | Currency of the order | Alphanumeric |
-| | | |
-| | ISO code 4217 | 3 characters |
-| | | |
-| | Example : EUR | |
-+-----------------------+-----------------------+-----------------------+
-| **customerRef** | Customer reference at | Alphanumeric |
-| | the merchant | |
-| | | 30 characters max |
-+-----------------------+-----------------------+-----------------------+
-| **country** | Country Code ISO | Alphanumeric |
-| | 3166-1 alpha-2 | |
-| | | 2 characters |
-| | Example : FR, BE | |
-+-----------------------+-----------------------+-----------------------+
-| **culture** | Culture name | 5 characters format |
-| | ([ex :]{.underline} | xx-XX |
-| | fr-FR, en-US, es-CO, | |
-| | es-PA) | |
-+-----------------------+-----------------------+-----------------------+
-| **date** | Order date with | Number |
-| | format YYYYMMDD | |
-| | | 8 characters |
-| | Example : 20090706 | |
-+-----------------------+-----------------------+-----------------------+
-| **decimalPosition** | Position of the | Integer |
-| | decimal separator | |
-| | from the right | |
-| | | |
-| | Example : 2 for | |
-| | 2 decimals after the | |
-| | decimal point | |
-+-----------------------+-----------------------+-----------------------+
-| **forceImmediateStore | Customer password | Number |
-| dCardPayment** | request flag | |
-| | | 1 character |
-| | Value in : | |
-| | | |
-| | \-       0 (Do not | |
-| | force the immediate | |
-| | payment with stored | |
-| | card) | |
-| | | |
-| | \-       1 (force the | |
-| | immediate payment | |
-| | with stored card) | |
-+-----------------------+-----------------------+-----------------------+
-| **forceUserCardStorag | CB registration | Number |
-| e** | forcing flag in the | |
-| | payment form | 1 character |
-| | | |
-| | Value in: | |
-| | | |
-| | \-       0 (or not | |
-| | filled) do not force | |
-| | the storage of the | |
-| | card, and let the | |
-| | customer choose | |
-| | | |
-| | \-       1 force the | |
-| | storage of the card | |
-| | without asking the | |
-| | customer | |
-+-----------------------+-----------------------+-----------------------+
-| **freeText** | Free text | Alphanumeric |
-+-----------------------+-----------------------+-----------------------+
-| **hmac** | Seal issue from the | Alphanumeric |
-| | data certification | |
-| | | 40 hexadecimal |
-| | (hmac = Hash-based | characters |
-| | Message | |
-| | Authentication Code) | |
-+-----------------------+-----------------------+-----------------------+
-| **invoiceID** | Invoice Identifier | Alphanumeric |
-| | | |
-| | | 30 characters max |
-+-----------------------+-----------------------+-----------------------+
-| **merchantAccountRef* | Used contract | Not filled if the |
-| * | identifier, as | payment could not |
-| | declared at the | technically succeed |
-| | merchant | |
-+-----------------------+-----------------------+-----------------------+
-| **merchantAuthenticat | URL to which will be | Alphanumeric |
-| eUrl** | verified the password | |
-| | of the customer at | |
-| | the merchant | |
-+-----------------------+-----------------------+-----------------------+
-| **merchantBackUrl** | URL of the previous | Alphanumeric |
-| | page (like | |
-| | "basket") of the | |
-| | merchant site | |
-+-----------------------+-----------------------+-----------------------+
-| **merchantHomeUrl** | URL of the home page | Alphanumeric |
-| | of the merchant site | |
-+-----------------------+-----------------------+-----------------------+
-| **merchantNotifyUrl** | URL by which the | Alphanumeric |
-| | payment platform | |
-| | notifies the merchant | |
-| | site of the payment | |
-| | result | |
-+-----------------------+-----------------------+-----------------------+
-| **merchantReturnUrl** | URL by which the | Alphanumeric |
-| | payment platform | |
-| | notifies the merchant | |
-| | site of the payment | |
-| | result | |
-+-----------------------+-----------------------+-----------------------+
-| **merchantID** | Merchant identifier | Non-signed integer |
-+-----------------------+-----------------------+-----------------------+
-| **merchantSiteID** | Merchant's site | Alphanumeric |
-| | identifier | |
-| | | 30 characters max |
-+-----------------------+-----------------------+-----------------------+
-| **orderDiscountAmount | Total amount of the | Non-signed integer |
-| ** | discounts associated | |
-| | with the order, in | |
-| | cents | |
-+-----------------------+-----------------------+-----------------------+
-| **orderFeesAmount** | Total amount of the | Non-signed integer |
-| | fees associated with | |
-| | the order, in cents | |
-+-----------------------+-----------------------+-----------------------+
-| **orderRef** | Reference of the | Alphanumeric |
-| | order at the merchant | |
-| | | 30 characters max |
-+-----------------------+-----------------------+-----------------------+
-| **orderTag** | Tag of the order | Alphanumeric |
-| | | |
-| | Ex : version number, | 30 characters max |
-| | context identifier... | |
-+-----------------------+-----------------------+-----------------------+
-| **orderRowsAmount** | Total amount with | Non-signed integer |
-| | taxes of the rows of | |
-| | the order, in cents | |
-+-----------------------+-----------------------+-----------------------+
-| **orderShippingCost** | Total amount of the | Non-signed integer |
-| | shipping costs | |
-| | associated with the | |
-| | order, in cents | |
-+-----------------------+-----------------------+-----------------------+
-| **passwordRequired** | Customer password | Number |
-| | request flag | |
-| | | 1 character |
-| | Value in : | |
-| | | |
-| | \-       0 (do not | |
-| | ask for the password) | |
-| | | |
-| | \-       1 (ask for | |
-| | the password) | |
-+-----------------------+-----------------------+-----------------------+
-| **payFormType** | Type of the payment | Number |
-| | form : | |
-| | | 1 character |
-| | \-       0 : Default | |
-| | | |
-| | \-       1 : Iframe | |
-| | (without header nor | |
-| | footer) | |
-+-----------------------+-----------------------+-----------------------+
-| **paymentOptionRef** | Payment method | Alphanumeric |
-| | identifier selected | |
-| | by the customer, as | 30 characters max |
-| | described by the | |
-| | merchant | |
-+-----------------------+-----------------------+-----------------------+
-| **returnCode** | Result code of the | Number |
-| | payment | |
-| | | 1 characterYep |
-| | Value in: | |
-| | | |
-| | \-       0 (Success) | |
-| | | |
-| | \-       1 (Refused, | |
-| | invalid request) | |
-| | | |
-| | \-       2 (Refused | |
-| | by bank) | |
-| | | |
-| | \-       3 (Technical | |
-| | failure) | |
-| | | |
-| | \-       4 (Pending) | |
-| | | |
-| | \-       5 | |
-| | (Undetermined) | |
-| | | |
-| | \-       6 | |
-| | (Cancelled) | |
-| | | |
-| | \-       7 | |
-| | (untreated) | |
-+-----------------------+-----------------------+-----------------------+
-| **scheduleAmount** | Amount of the | Non-signed integer |
-| | schedule, in cents | |
-+-----------------------+-----------------------+-----------------------+
-| **scheduleCount** | Number of schedule | Non-signed integer |
-+-----------------------+-----------------------+-----------------------+
-| **scheduleDate** | Date of payment of | Number |
-| | the schedule, with | |
-| | format YYYYMMDD | 8 characters |
-| | | |
-| | Example : 20090706 | |
-+-----------------------+-----------------------+-----------------------+
-| **storedCardID** | Stored card | Alphanumeric |
-| | identifier | |
-| | | 40 characters max |
-+-----------------------+-----------------------+-----------------------+
-| **storedCardLabel** | Stored card label | Alphanumeric |
-| | | |
-| | | 30 characters max |
-+-----------------------+-----------------------+-----------------------+
-| **version** | Payment SAAS's | Alphanumeric |
-| | version | |
-| | | |
-| | Currently 1.0 | |
-+-----------------------+-----------------------+-----------------------+
-| **uniqueTransactionId | Unique transaction | Number |
-| \*\* | identifier | |
-| | | |
-| | This field is sent | |
-| | only for a litigation | |
-| | payment, and only if | |
-| | it is activated via | |
-| | the key\ | |
-| | « Feature.Payment.Sen | |
-| | dTransactionNumHMAC.E | |
-| | nabled » | |
-+-----------------------+-----------------------+-----------------------+
+| **Field**                           | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | **Type**                                                |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **allowCardStorage**                | Flag allowing the storage of the used bank card<br/>Value in :<br/>- 0 (do not store the used bank card)<br/>- 1 (store the used bank card)<br/>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Number<br/>1 character                                  |
+| **amount**                          | Total amount with taxes of the order                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Non-signed<br/>integer                                  |
+| **complementaryReturnCode**         | Complementary code of the payment result<br/>Value in:<br/>- 0 (Unknown)<br/>- 1 (Exceeds the maximum allowed)<br/>- 2 (Amount too high)<br/>- 3 (Technical problem)<br/>- 4 (Authorized)<br/>- 5 (Fraud suspected by the bank)<br/>- 6 (Expired method of payment)<br/>- 7 (Cannot reach the issuer of the payment method)<br/>- 8 (Payment method holder not 3D-Secure authenticated)<br/>- 9 (Exceeded date of validity of the payment method)<br/>- 10 (Duplicated transaction : for a given day, this transaction identifier has already been used)<br/>- 11 (Format error)<br/>- 12 (Suspected fraud)<br/>- 13 (Transaction not authorized for this holder)<br/>- 14 (Invalid merchant contract)<br/>- 15 (Invalid payment method details)<br/>- 16 (Unknown issuer of payment method)<br/>- 17 (Invalid transaction)<br/>- 18 (Lost payment method)<br/>- 19 (Unknow transaction)<br/>- 20 (Request for authorization by phone to the bank due to exceeded authorization ceiling on the card, if it is possible to force transactions)<br/>- 21 (Refused authorized)<br/>- 22 (Not supported)<br/>- 23 (Security breach)<br/>- 24 (Security rules not fullfilled)<br/>- 25 (Unattainable server)<br/>- 26 (Stolen payment method)<br/>- 27 (System malfunction)<br/>- 28 (Bank server temporarily unavailable)<br/>- 29 (PSP server temporarily unavailable)<br/>- 30 (Transaction prohibited for this terminal)<br/>- 31 (Response not received or received too late)<br/>- 32 (Unknown acquisition organization identifier)<br/>- 33 (Unknown payment method)<br/>- 34 (Operation impossible because incompatible with the state of the transaction)<br/>- 35 (Transaction not found at the PSP because already archived)<br/>- 36 (Refusal issued by the « Scoring » service provider)<br/>- 37 (Number of attempts to enter the details of the payment method exceeded) | Number <br/> 1 to 2 characters                          |
+| **currency**                        | Currency of the order<br/>ISO code 4217<br/>Example : EUR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Alphanumeric<br/>3 characters                           |
+| **customerRef**                     | Customer reference at the merchant                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Alphanumeric<br/>30 characters max                      |
+| **country**                         | Country Code ISO 3166-1 alpha-2<br/>Example : FR, BE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Alphanumeric<br>2 characters                            |
+| **culture**                         | Culture name (ex : fr-FR, en-US, es-CO, es-PA)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | 5 characters <br/>format xx-XX                          |
+| **date**                            | Order date with format YYYYMMDD<br/>Example : 20090706                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Number<br/>8 characters                                 |
+| **decimalPosition**                 | Position of the decimal separator from the right<br/>Example : 2 for 2 decimals after the decimal point                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Integer                                                 |
+| **forceImmediateStoredCardPayment** | Customer password request flag<br/>Value in :<br>- 0 (Do not force the immediate payment with stored card)<br/>- 1 (force the immediate payment with stored card)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Number<br/>1 character                                  |
+| **forceUserCardStorage**            | CB registration forcing flag in the payment form<br/>Value in:<br/>- 0 (or not filled) do not force the storage of the card, and let the customer choose<br/>- 1 force the storage of the card without asking the customer                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Number<br/>1 character                                  |
+| **freeText**                        | Free text                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Alphanumeric                                            |
+| **hmac**                            | Seal issue from the data certification<br/>(hmac = Hash-based Message Authentication Code)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Alphanumeric<br/>40 hexadecimal characters              |
+| **invoiceID**                       | Invoice Identifier                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Alphanumeric<br/>30 characters max                      |
+| **merchantAccountRef**              | Used contract identifier, as declared at the merchant                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Not filled if the payment could not technically succeed |
+| **merchantAuthenticateUrl**         | URL to which will be verified the password of the customer at the merchant                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Alphanumeric                                            |
+| **merchantBackUrl**                 | URL of the previous page (like "basket") of the merchant site                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |Alphanumeric|
+| **merchantHomeUrl**                 | URL of the home page of the merchant site                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Alphanumeric                                            |
+| **merchantNotifyUrl**               | URL by which the payment platform notifies the merchant site of the payment result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Alphanumeric                                            |
+| **merchantReturnUrl**               | URL by which the payment platform notifies the merchant site of the payment result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Alphanumeric                                            |
+| **merchantID**                      | Merchant identifier                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Non-signed integer                                      |
+| **merchantSiteID**                  | Merchant's site identifier                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Alphanumeric<br/>30 characters max                      |
+| **orderDiscountAmount**             | Total amount of the discounts associated with the order, in cents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Non-signed integer                                      |
+| **orderFeesAmount**                 | Total amount of the fees associated with the order, in cents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Non-signed integer                                      |
+| **orderRef**                        | Reference of the order at the merchant                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Alphanumeric<br/>30 characters max                      |
+| **orderTag**                        | Tag of the order<br/>Ex : version number, context identifier…                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Alphanumeric<br/>30 characters max                      |
+| **orderRowsAmount**                 | Total amount with taxes of the rows of the order, in cents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Non-signed integer                                      |
+| **orderShippingCost**               | Total amount of the shipping costs associated with the order, in cents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Non-signed integer                                      |
+| **passwordRequired**                | Customer password request flag<br/>Value in :<br/>- 0 (do not ask for the password)<br/>- 1 (ask for the password)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Number<br/>1 character                                  |
+| **payFormType**                     | Type of the payment form :<br/>- 0 : Default<br/>- 1 : Iframe (without header nor footer)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Number<br/>1 character                                  |
+| **paymentOptionRef**                | Payment method identifier selected by the customer, as described by the merchant                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Alphanumeric<br/>30 characters max                      |
+| **returnCode**                      | Result code of the payment<br/>Value in:<br/>- 0 (Success)<br/>- 1 (Refused, invalid request)<br/>- 2 (Refused by bank)<br/>- 3 (Technical failure)<br/>- 4 (Pending)<br/>- 5 (Undetermined)<br/>- 6 (Cancelled)<br/>- 7 (untreated)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Number<br/>1 character                                  |
+| **scheduleAmount**                  | Amount of the schedule, in cents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Non-signed integer                                      |
+| **scheduleCount**                   | Number of schedule                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Non-signed integer                                      |
+| **scheduleDate**                    | Date of payment of the schedule, with format YYYYMMDD<br/>Example : 20090706                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Number<br/>8 characters                                 |
+| **storedCardID**                    | Stored card identifier                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Alphanumeric<br/>40 characters max                      |
+| **storedCardLabel**                 | Stored card label                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Alphanumeric<br/>30 characters max                      |
+| **version**                         | Payment SAAS's version<br/>Currently 1.0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Alphanumeric                                            |
+
+|
+| **uniqueTransactionId** | Unique transaction identifier<br/>This field is sent only for a litigation payment, and only if it is activated via the key « Feature.Payment.SendTransactionNumHMAC.Enabled » | Number |
 
 # Sequence diagrams
 
 - [Diagram : 3DS Cinematic (REST
-  API)](#Diagram-:-3DS-Cinematic-(REST-API))
+  API)](<#Diagram-:-3DS-Cinematic-(REST-API)>)
 
 - [Diagram : 3DS Cinematic with automatic Capture (REST
   API)](https://confluence.cdiscount.com/pages/viewpage.action)
@@ -2323,7 +1962,7 @@ The REST API also has an OpenAPI Specification with Swagger.
 
 # Diagram : Add a card (REST API)
 
- ![Diagram : Add a card (REST API)](/staticFiles/media/4d384e54-86ca-4476-ae5c-809c74260ede.png)
+![Diagram : Add a card (REST API)](/staticFiles/media/4d384e54-86ca-4476-ae5c-809c74260ede.png)
 
 # Diagram : Authorize / Capture (REST API)
 
@@ -2362,13 +2001,13 @@ The REST API also has an OpenAPI Specification with Swagger.
 This table below gives different information about test cases that
 [provide a positive result] :
 
-|**Card type by PSP** | **Number**  | **Expiration date** | **Security code (CVV)** | **Remarks** |
-|-|-|-|-|-|
-|CB 3D-Secure enrolled (SIPS)|5017670000001800|Greater than today|whatever 3-letters numeric code (000, 123, ...)|It should be used or considered first|
-|CB 3D-Secure enrolled (PAYLINE)|8000110000000109<br/>4970101122334455|Greater than today|whatever 3-letters numeric code (000, 123, ...)|Password CDISCOUNT (for 3DSecure)|
-|CB Virtuelle 3D-Secure (PAYLINE)|8000267359000005 |Greater than today|whatever 3-letters numeric code (000, 123, ...)|Password CDISCOUNT (for 3DSecure)|
-|CB Virtuelle 3D-Secure (SIPS)|5017670000011809<br/>5017674000010001|Greater than today|whatever 3-letters numeric code (000, 123, ...)|-|
-|CB (SIPS)|5017670000005900|Greater than today|whatever 3-letters numeric code (000, 123, ...)|It does KO payment on 3D secure|
+| **Card type by PSP**             | **Number**                            | **Expiration date** | **Security code (CVV)**                         | **Remarks**                           |
+| -------------------------------- | ------------------------------------- | ------------------- | ----------------------------------------------- | ------------------------------------- |
+| CB 3D-Secure enrolled (SIPS)     | 5017670000001800                      | Greater than today  | whatever 3-letters numeric code (000, 123, ...) | It should be used or considered first |
+| CB 3D-Secure enrolled (PAYLINE)  | 8000110000000109<br/>4970101122334455 | Greater than today  | whatever 3-letters numeric code (000, 123, ...) | Password CDISCOUNT (for 3DSecure)     |
+| CB Virtuelle 3D-Secure (PAYLINE) | 8000267359000005                      | Greater than today  | whatever 3-letters numeric code (000, 123, ...) | Password CDISCOUNT (for 3DSecure)     |
+| CB Virtuelle 3D-Secure (SIPS)    | 5017670000011809<br/>5017674000010001 | Greater than today  | whatever 3-letters numeric code (000, 123, ...) | -                                     |
+| CB (SIPS)                        | 5017670000005900                      | Greater than today  | whatever 3-letters numeric code (000, 123, ...) | It does KO payment on 3D secure       |
 
 ## **SIPS CARD GAME "Cases":**
 
@@ -2376,31 +2015,29 @@ In the other hand, the table below gives differents test card with
 differents test cases that provide a negative result.\
 Those specifics test cards only work with SIPS partner (Worldline).
 
-| **Description** | **CB only** | **CB/MC 3DS** | **CB/MC non 3DS** | **CB/Visa 3DS**| **CB/Visa non 3DS** | **Expiration date** | **Security code (CVV)**|
-|-|-|-|-|-|-|-|-|
-|Not to deliver or accept<br/>”Do not honor”|5017679100900605|5017679200300805|5017679200900505|5017679400300605|5017679400900305|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
-|Invalid   amount|5017679100900613|5017679200300813|5017679200300813|5017679400300613|5017679400900313|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
-|Stolen card|5017679100900043|5017679200300243|5017679200900943|5017679400300043|5017679400900743|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
-|Validation   date expired|5017679100900654|5017679200300854|5017679200900554|5017679400300654|5017679400900354|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
-|Suspicion of fraud|5017679100900159|5017679200300359|5017679200900059|5017679400300159|5017679400900859|Greater than today|whatever 3-letters numeric code (000, 123, ...)|
+| **Description**                             | **CB only**      | **CB/MC 3DS**    | **CB/MC non 3DS** | **CB/Visa 3DS**  | **CB/Visa non 3DS** | **Expiration date** | **Security code (CVV)**                         |
+| ------------------------------------------- | ---------------- | ---------------- | ----------------- | ---------------- | ------------------- | ------------------- | ----------------------------------------------- |
+| Not to deliver or accept<br/>”Do not honor” | 5017679100900605 | 5017679200300805 | 5017679200900505  | 5017679400300605 | 5017679400900305    | Greater than today  | whatever 3-letters numeric code (000, 123, ...) |
+| Invalid amount                              | 5017679100900613 | 5017679200300813 | 5017679200300813  | 5017679400300613 | 5017679400900313    | Greater than today  | whatever 3-letters numeric code (000, 123, ...) |
+| Stolen card                                 | 5017679100900043 | 5017679200300243 | 5017679200900943  | 5017679400300043 | 5017679400900743    | Greater than today  | whatever 3-letters numeric code (000, 123, ...) |
+| Validation date expired                     | 5017679100900654 | 5017679200300854 | 5017679200900554  | 5017679400300654 | 5017679400900354    | Greater than today  | whatever 3-letters numeric code (000, 123, ...) |
+| Suspicion of fraud                          | 5017679100900159 | 5017679200300359 | 5017679200900059  | 5017679400300159 | 5017679400900859    | Greater than today  | whatever 3-letters numeric code (000, 123, ...) |
 
 # Payment Options Referential
 
-| **Reference** |  **Definition** |
-|-|-|
-|1  | Card  |
-|17 | Paypal|
-|21 | Card with 3DS|
-|26 | Card 4 times|
-|37 | CUP Credit Card |
-|38 | CUP Credit Card subscription |
-|40 | American Express|
-|42 | Card with 3DS 4 times |
-|55 | Card Bancontact Mistercash|
-|84 | SEPA Direct Debit (SDD)|
-|87 | CUP Credit Card with 3DS|
-|88 | LYDIA|
-|90 | PAYLIB|
-|91 | Apple Pay|
-
-
+| **Reference** | **Definition**                |
+| ------------- | ----------------------------- |
+| 1             | Card                          |
+| 17            | Paypal                        |
+| 21            | Card with 3DS                 |
+| 26            | Card 4 times                  |
+| 37            | CUP Credit Card               |
+| 38            | CUP Credit Card subscription  |
+| 40            | American Express              |
+| 42            | Card with 3DS 4 times         |
+| 55            | Card Bancontact Mistercash    |
+| 84            | SEPA Direct Debit (SDD)       |
+| 87            | CUP Credit Card with 3DS      |
+| 88            | LYDIA                         |
+| 90            | PAYLIB                        |
+| 91            | Apple Pay                     |

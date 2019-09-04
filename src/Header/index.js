@@ -80,7 +80,6 @@ class Header extends PureComponent {
   }
   handleChangeTheme = () => {
     const { themeClaire } = this.state;
-    console.log(!themeClaire);
     this.setState({ themeClaire: !themeClaire });
     this.props.changeTheme(!themeClaire);
   };

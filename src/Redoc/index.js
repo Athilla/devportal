@@ -4,7 +4,6 @@ import { RedocStandalone } from 'redoc';
 class Redoc extends Component {
   localData = () => {
     var data = require('../staticFiles/openapi.json');
-    console.log(data);
     return data;
   };
 
